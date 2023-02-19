@@ -23,6 +23,7 @@ const styles = {
 
 const MovieDetails = ( props) => {
   const movie = props.movie
+  const countries = ["France", "Lithuania", "Ireland"]
 
   return (
     <>
@@ -56,6 +57,16 @@ const MovieDetails = ( props) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+      <Paper component="ul" sx={styles.chipSet}>
+        <li>
+          <Chip label="Production Countries" sx={styles.chipLabel} color="primary" />
+        </li>
+        {countries.map((country, index) => (
+          <li key={index}>
+            <Chip label={country}  />
+          </li>
+        ))}
+      </Paper>      
       </>
   );
 };
