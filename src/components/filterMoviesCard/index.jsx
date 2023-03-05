@@ -45,7 +45,7 @@ const styles = {
 
   const handleChange = (e, type, value) => {
     e.preventDefault()
-    // Completed later
+    props.onUserInput(type, value)  //New
   };
 
   const handleTextChange = e => {
