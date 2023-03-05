@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import img from '../../images/film-poster-placeholder.png'
 import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
 
 const styles = {
   card: { maxWidth: 345 },
@@ -25,9 +26,28 @@ const styles = {
 export default function MovieCard(props) {
   const movie = props.movie;
 
+  const handleAddToFavourite = (e) => {
+    e.preventDefault();
+    props.selectFavourite(movie.id);
+  };
+
   return (
     <Card sx={styles.card}>
-      <CardHeader sx={styles.header} title={movie.title} />
+      <CardHeader
+        sx={styles.header}
+        avatar={
+          movie.favourite ? (
+            <Avatar sx={styles.avatar}>
+              <FavoriteIcon />
+            </Avatar>
+          ) : null
+        }
+        title={
+          <Typography variant="h5" component="p">
+            {movie.title}{" "}
+          </Typography>
+        }
+      />
       <CardMedia
         sx={styles.media}
         image={
@@ -53,7 +73,7 @@ export default function MovieCard(props) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={null}>
+        <IconButton aria-label="add to favorites" onClick={handleAddToFavourite}>
           <FavoriteIcon color="primary" fontSize="large" />
         </IconButton>
         <Link to={`/movies/${movie.id}`}>
