@@ -8,7 +8,8 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
+import PlayListAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const titleFiltering = {
   name: "title",
@@ -54,7 +55,8 @@ const UpcomingMovies = (props) => {
         title="Upcoming Movies"
         movies={displayedMovies}
         action={(movie) => {
-          return <AddToFavouritesIcon movie={movie} />
+          return <PlayListAddIcon movie={movie} />
+          // return <AddToFavouritesIcon movie={movie} />          
         }}
       />
       <MovieFilterUI
