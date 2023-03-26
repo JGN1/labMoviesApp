@@ -8,7 +8,6 @@ import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
 import PlayListAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const titleFiltering = {
