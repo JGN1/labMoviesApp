@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { useQuery } from "react-query";
-import Spinner from "../components/spinner";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 
 const titleFiltering = {
   name: "title",
@@ -22,19 +19,21 @@ const genreFiltering = {
 };
 
 const UpcomingMovies = (props) => {
-  const { data, error, isLoading, isError } = useQuery("Upcoming Movies", getUpcomingMovies);
+  const [movies, setMovies] = useState([]);
+  const favourites = movies.filter((m) => m.favourite);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering]
   );
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  localStorage.setItem("favourites", JSON.stringify(favourites));
 
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
+  const addToFavourites = (movieId) => {
+    const updatedMovies = movies.map((m) =>
+      m.id === movieId ? { ...m, favourite: true } : m
+    );
+    setMovies(updatedMovies);
+  };
 
   const changeFilterValues = (type, value) => {
     const changedFilter = { name: type, value: value };
@@ -45,7 +44,13 @@ const UpcomingMovies = (props) => {
     setFilterValues(updatedFilterSet);
   };
 
-  const movies = data ? data.results : [];
+  useEffect(() => {
+    getUpcomingMovies().then((movies) => {
+      setMovies(movies);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const displayedMovies = filterFunction(movies);
 
   return (
@@ -53,9 +58,7 @@ const UpcomingMovies = (props) => {
       <PageTemplate
         title="Upcoming Movies"
         movies={displayedMovies}
-        action={(movie) => {
-          return <AddToFavouritesIcon movie={movie} />
-        }}
+        selectFavourite={addToFavourites}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
