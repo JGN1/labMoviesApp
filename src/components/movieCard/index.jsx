@@ -22,6 +22,9 @@ const styles = {
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
+  avatarPlaylist: {
+    backgroundColor: "rgb(255, 0, 0)",
+  },
 };
 
 export default function MovieCard({ movie, action }) {
@@ -49,14 +52,11 @@ export default function MovieCard({ movie, action }) {
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
-          ) : null
-        }
-        avatar={
-          movie.mustWatch ? (
-            <Avatar sx={styles.avatar}>
-              <PlaylistAddCheckIcon />
-            </Avatar>
-          ) : null
+          ) : movie.mustWatch ? (
+                <Avatar sx={styles.avatar}>
+                  <PlaylistAddCheckIcon />
+                </Avatar>
+              ) : null
         }
         title={
           <Typography variant="h5" component="p">
