@@ -21,12 +21,12 @@ const styles = {
   },
 };
 
-const MovieHeader = (props) => {
-  const movie = props.movie;
-  // Get movies from local storage.
+const ActorHeader = (props) => {
+  const actor = props.actor;
+  // Get actors from local storage.
   const favourite = JSON.parse(localStorage.getItem("favourites"));   
-  // console.log("Hello this is favourite -- " + favourite);
-  // console.log("movie id from props " + movie.id);
+  console.log("Hello this is favourite -- " + favourite);
+  console.log("actor id from props " + actor.id);
 
   return (
     <Paper component="div" sx={styles.root}>
@@ -35,12 +35,12 @@ const MovieHeader = (props) => {
       </IconButton>
       {favourite ? <Avatar sx={styles.avatar}><FavoriteIcon /></Avatar> : null}
       <Typography variant="h4" component="h3">              
-        {movie.title}{"   "}
-        <a href={movie.homepage}>
+        {actor.title}{"   "}
+        <a href={actor.name}>
           <HomeIcon color="primary"  fontSize="='large"/>
         </a>
         <br />
-        <span>{`${movie.tagline}`} </span>
+        {/* <span>{`${actor.tagline}`} </span> */}
       </Typography>
       <IconButton aria-label="go forward">
         <ArrowForwardIcon color="primary" fontSize="large" />
@@ -49,4 +49,4 @@ const MovieHeader = (props) => {
   );
 };
 
-export default MovieHeader;
+export default ActorHeader;
