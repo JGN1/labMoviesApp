@@ -1,9 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ActorDetails from "../components/actorDetails";
+import ActorFilmography from "../components/actorFilmography";
 import PageTemplate from "../components/templateActorPage";
 // import useMovie from "../hooks/useMovie";
 import { getActor } from '../api/tmdb-api'
+import { getActorCombinedCredits } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 
@@ -13,9 +15,27 @@ const ActorDetailsPage = () => {
   const { data: actor, error, isLoading, isError } = useQuery(
     ["actor", { id: id }],    
     getActor
+    // getActorCombinedCredits
   );
 
-  console.log("actor");
+  // const actor1 = useQuery("976", getActorCombinedCredits);
+  // const { data: actor, error, isLoading, isError } = useQuery(
+  //   ["actor", { id: id }],    
+  //   // getActor
+  //   getActorCombinedCredits
+  // );
+
+  // const { data: actorCredits, error, isLoading, isError } = useQuery(
+  //   ["actorCredits", { id: id }],    
+  //   // getActor
+  //   getActorCombinedCredits
+  // );  
+  
+  console.log("Here is contents first query - ");
+  // console.log(JSON.stringify(actorCredits));
+  console.log(JSON.stringify(actor));
+  // console.log("jfjfjfjfjfj " + JSON.stringify(actor1));
+  
   if (isLoading) {
     return <Spinner />;
   }
@@ -24,13 +44,22 @@ const ActorDetailsPage = () => {
     return <h1>{error.message}</h1>;
   }
 
+  // if (isLoading2) {
+  //   return <Spinner />;
+  // }
+
+  // if (isError2) {
+  //   return <h1>{error2.message}</h1>;
+  // }
+
   return (
     <>
-    <p>I am here</p>
       {actor ? (
         <>
           <PageTemplate actor={actor}>
-            <ActorDetails actor={actor} />
+          {/* <PageTemplate actor={actor} actorCredits={actorCredits}> */}
+            <ActorDetails actor={actor}/>
+            <ActorFilmography actor={actor}/>
           </PageTemplate>
         </>
       ) : (

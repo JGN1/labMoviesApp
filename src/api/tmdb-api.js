@@ -51,7 +51,10 @@
     const [, idPart] = queryKey;
     const { id } = idPart;
     return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      // `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      
+      // Added url as follows to limit images to English language versions
+      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&append_to_response=images&include_image_language=en,null`
     ).then( (response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
@@ -123,9 +126,10 @@
   };
    
   export const getActorImages = (args) => {
-    console.log(args)
-    const [, idPart] = args.queryKey;
+    console.log("getActorImages args from API - " + JSON.stringify(args));
+    const [, idPart] = args.queryKey;    
     const { id } = idPart;
+    console.log("This extracted idPart ${id} " + id);
     return fetch(      
       `https://api.themoviedb.org/3/person/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
     ).then((response) => {
@@ -138,6 +142,25 @@
       throw error
    });
   };
+   
+  export const getActorCombinedCredits = (args) => {
+    console.log("getActorCombinedCredits args from API - " + JSON.stringify(args));
+    const [, idPart] = args.queryKey;
+    const { id } = idPart;
+    console.log("This extracted idPart ${id} combcredits " + id);
+    return fetch(      
+      // `https://api.themoviedb.org/3/person/976/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
 
-
+  
   

@@ -26,7 +26,7 @@ const styles = {
   },
   fab: { 
     position: "fixed",
-    top: 50,
+    top: 80,
     right: 2,
   },
 };
@@ -36,11 +36,11 @@ const ActorDetails = ( {actor}) => {
 
   return (
     <>
-      <Typography variant="h4" component="h3">
+      <Typography variant="h3" component="h3">
         {actor.name}
       </Typography>
 
-      <Typography variant="h6" component="p">
+      <Typography variant="h6" component="p"  mt={2}>
         {actor.biography}
       </Typography>
       

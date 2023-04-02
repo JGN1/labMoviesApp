@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-const TemplateActorPage = ({ actor, children }) => {
+const TemplateActorPage = ({ actor, actorCredits, children }) => {
   const { data , error, isLoading, isError } = useQuery(
     ["images", { id: actor.id }],
     getActorImages
@@ -33,13 +33,16 @@ const TemplateActorPage = ({ actor, children }) => {
     return <h1>{error.message}</h1>;
   }
   const images = data.profiles 
+  
+  console.log("about to print it - ");
+  console.log(JSON.stringify(actorCredits));
 
   return (
     <>
       <ActorHeader actor={actor} />
 
       <Grid container spacing={5} style={{ padding: "15px" }}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>
               {images.map((image) => (
@@ -58,8 +61,27 @@ const TemplateActorPage = ({ actor, children }) => {
           </div>
         </Grid>
 
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           {children}
+        </Grid>
+        <Grid item xs={2}>
+        {/* <Grid item xs={9}> */}
+        {/* <div sx={styles.gridListRoot}>
+            <ImageList cols={1}>
+              {actorCredits.cast.map((image) => (
+                <ImageListItem
+                  key={image.poster_path}
+                  sx={styles.gridListTile}
+                  cols={1}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${image.poster_path}`}
+                    alt={image.poster_path}
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          </div> */}
         </Grid>
       </Grid>
     </>
