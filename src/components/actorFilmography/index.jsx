@@ -4,19 +4,10 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getActorCombinedCredits } from '../../api/tmdb-api'
 import Spinner from '../spinner'
-
-
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
-import img from '../../images/film-poster-placeholder.png'
+import ActorFilmCard from "../actorFilmCard";
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 const styles = {
   chipSet: {
@@ -37,7 +28,7 @@ const styles = {
     right: 2,
   },
   card: { maxWidth: 345 },
-  media: { height: 500 },
+  media: { height: 350 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
@@ -68,89 +59,41 @@ const ActorFilmography = () => {
 
   return (
     <>
-      <Typography variant="h4" component="h3" mt={2}>
-        Filmography
-      </Typography>
+      <Box>
+        <Paper variant="outlined" elevation={1} style={{ padding: "15px" }}>
 
+          <Typography variant="h4" component="h3" mt={2}>
+            Filmography
+          </Typography>
 
-      {actorCreds ? (
-        <>
-          {actorCreds.cast.map((data) => (
+          {actorCreds ? (
             <>
-              <Grid key={data} item xs={12} sm={6} md={4} lg={3} xl={2}>
-                <Card sx={styles.card}>
-                  <CardHeader
-                    sx={styles.header}
-                    // avatar={
-                    //   actor.favourite ? (
-                    //     <Avatar sx={styles.avatar}>
-                    //       <FavoriteIcon />
-                    //     </Avatar>
-                    //   ) : actor.mustWatch ? (
-                    //         <Avatar sx={styles.avatar}>
-                    //           <PlaylistAddCheckIcon />
-                    //         </Avatar>
-                    //       ) : null
-                    // }
-                    title={
-                      <Typography variant="h5" component="p">
-                        {data.original_title}{" "}
-                      </Typography>
-                    }
-                  />
-                  <CardMedia
-                    sx={styles.media}
-                    image={
-                      data.poster_path
-                        ? `https://image.tmdb.org/t/p/w500/${data.poster_path}`
-                        : img
-                    }
-                  />
-                  <CardContent>
-                  <Typography variant="h6" component="p">
-                        {"Character - "}{data.character}{" "}
-                      </Typography>
-                    {/* <Grid container>
-                  <Grid item xs={6}>
-                    <Typography variant="h6" component="p">
-                      <CalendarIcon fontSize="small" />
-                      {actor.release_date}
-                    </Typography>
+              {actorCreds.cast.map((data) => (
+                <>
+                <Grid item
+                  container 
+                  spacing={5} 
+                  style={{ padding: "15px" }}
+                  direction="row"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  >
+                    <Grid key={data.id} item xs={12} sm={6} md={4} lg={3} xl={2} direction="row">
+                      <ActorFilmCard key={data.id} actorCredits={data} />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="h6" component="p">
-                      <StarRateIcon fontSize="small" />
-                      {"  "} {actor.popularity}{" "}
-                    </Typography>
-                  </Grid>
-                </Grid> */}
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    {/* {action(actor)}
-                <Link to={`/actors/profile/${actor.id}`}>        
-                  <Button variant="outlined" size="medium" color="primary">
-                    More Info ...
-                  </Button>
-                </Link> */}
-                  </CardActions>
-                </Card>
-              </Grid>
+                </>
+              ))}
             </>
+          ) : (
+            <p>Waiting for actor details</p>
+          )
+          }
 
-
-          ))}
-
-        </>
-
-      ) : (
-        <p>Waiting for actor details</p>
-      )
-      }
+        </Paper>
+      </Box>
     </>
   );
 
 };
 export default ActorFilmography;
-{/* <Typography key={data} variant="h5" component="h3">
-            {data.original_title}
-            </Typography> */}

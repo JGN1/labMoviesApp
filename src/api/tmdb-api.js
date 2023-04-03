@@ -131,7 +131,7 @@
     const { id } = idPart;
     console.log("This extracted idPart ${id} " + id);
     return fetch(      
-      `https://api.themoviedb.org/3/person/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      `https://api.themoviedb.org/3/person/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
@@ -150,7 +150,7 @@
     console.log("This extracted idPart ${id} combcredits " + id);
     return fetch(      
       // `https://api.themoviedb.org/3/person/976/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
-      `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);

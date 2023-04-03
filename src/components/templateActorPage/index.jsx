@@ -8,10 +8,13 @@ import { useQuery } from "react-query";
 import Spinner from '../spinner'
 
 const styles = {
+  root: { 
+    backgroundColor: "#bfbfbf",
+  },
   gridListRoot: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-around",    
   },
   gridList: {
     width: 450,
@@ -61,27 +64,8 @@ const TemplateActorPage = ({ actor, actorCredits, children }) => {
           </div>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={10}>
           {children}
-        </Grid>
-        <Grid item xs={2}>
-        {/* <Grid item xs={9}> */}
-        {/* <div sx={styles.gridListRoot}>
-            <ImageList cols={1}>
-              {actorCredits.cast.map((image) => (
-                <ImageListItem
-                  key={image.poster_path}
-                  sx={styles.gridListTile}
-                  cols={1}
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${image.poster_path}`}
-                    alt={image.poster_path}
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
-          </div> */}
         </Grid>
       </Grid>
     </>

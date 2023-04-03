@@ -9,6 +9,7 @@ import { getActorCombinedCredits } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 
+
 const ActorDetailsPage = () => {
   const { id } = useParams();
 
@@ -32,9 +33,7 @@ const ActorDetailsPage = () => {
   // );  
   
   console.log("Here is contents first query - ");
-  // console.log(JSON.stringify(actorCredits));
   console.log(JSON.stringify(actor));
-  // console.log("jfjfjfjfjfj " + JSON.stringify(actor1));
   
   if (isLoading) {
     return <Spinner />;

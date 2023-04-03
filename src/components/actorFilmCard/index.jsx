@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext  } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -9,13 +9,12 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-import img from '../../images/film-poster-placeholder.png'
+import { MoviesContext } from "../../contexts/moviesContext";
+import img from '../../images/film-poster-placeholder.png';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import AddToFavouritesIcon from '../cardIcons/addToFavourites'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,67 +27,94 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-// const ActorCredits = ( {actorCredits}) => {
-//     return (
-//         <>
-//             <Typography variant="h3" component="h3">
-//                 {actorCredits.original_title}
-//                 {actorCredits.overview}
-//             </Typography>
-//         </>
-//     )
-// }
-
-// export default ActorCredits;
+const styles = {
+  card: { maxWidth: 500 },
+  media: { height: 500 },
+  avatar: {
+    backgroundColor: "rgb(255, 0, 0)",
+  },
+  avatarPlaylist: {
+    backgroundColor: "rgb(255, 0, 0)",
+  },
+};
 
 
-export default function RecipeReviewCard() {
+export default function ActorFilmCard({actorCredits}) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { mustWatch, addToMustWatch } = useContext(MoviesContext);
+
+  if (favourites.find((id) => id === actorCredits.id)) {
+    actorCredits.favourite = true;
+  } else {
+    actorCredits.favourite = false
+  }
+
+  if (mustWatch.find((id) => id === actorCredits.id)) {
+    actorCredits.mustWatch = true;
+  } else {
+    actorCredits.mustWatch = false
+  }
+
+  console.log("======================================");
+  console.log(JSON.stringify(actorCredits));
+  console.log("======================================");
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 500 }}  variant="outlined">
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
+          actorCredits.favourite ? (
+            <Avatar sx={styles.avatar}>
+              <FavoriteIcon />
+            </Avatar>
+          ) : actorCredits.mustWatch ? (
+                <Avatar sx={styles.avatar}>
+                  <PlaylistAddCheckIcon />
+                </Avatar>
+              ) : null
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={
+          actorCredits.original_title
+              ? actorCredits.original_title
+              : actorCredits.original_name
+          }           
       />
       <CardMedia
         component="img"
-        height="194"
-        // image={
-        //     props.profile_path
-        //       ? `https://image.tmdb.org/t/p/w500/${props.poster_path}`
-        //       : img
-        //   }
-        image="../images/film-poster-placeholder.png"
-        alt="Paella dish"
+        height="350"
+        image={
+          actorCredits.poster_path
+              ? `https://image.tmdb.org/t/p/w500/${actorCredits.poster_path}`
+              : img
+          }
+        alt={`https://image.tmdb.org/t/p/w500/${actorCredits.poster_path}`}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
+        {
+          actorCredits.release_date
+              ? `Release Date - ${actorCredits.release_date}`
+              : `First Aired - ${actorCredits.first_air_date}`
+          }
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {`Character - ${actorCredits.character}`}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {actorCredits.media_type=="tv"
+          ? `TV Series`
+          : `Movie`}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+          <AddToFavouritesIcon movie={actorCredits} />
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -100,32 +126,8 @@ export default function RecipeReviewCard() {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-            large plate and set aside, leaving chicken and chorizo in the pan. Add
-            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-            stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is absorbed,
-            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without
-            stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
+        <CardContent> 
+          <Typography paragraph>{actorCredits.overview} </Typography>          
         </CardContent>
       </Collapse>
     </Card>
