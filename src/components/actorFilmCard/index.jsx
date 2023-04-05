@@ -5,6 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
+import CardActionArea from '@mui/material/CardActionArea';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
@@ -14,7 +15,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MoviesContext } from "../../contexts/moviesContext";
 import img from '../../images/film-poster-placeholder.png';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import AddToFavouritesIcon from '../cardIcons/addToFavourites'
+import AddToFavouritesIcon from '../cardIcons/addToFavourites';
+import { Link } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -85,6 +87,8 @@ export default function ActorFilmCard({actorCredits}) {
               : actorCredits.original_name
           }           
       />
+      <CardActionArea>
+      <Link to={`/movies/${actorCredits.id}`}>
       <CardMedia
         component="img"
         height="350"
@@ -95,6 +99,8 @@ export default function ActorFilmCard({actorCredits}) {
           }
         alt={`https://image.tmdb.org/t/p/w500/${actorCredits.poster_path}`}
       />
+      </Link>
+      </CardActionArea>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
         {
