@@ -14,20 +14,25 @@ import MovieReviews from '../movieReviews'
 const styles = {
   chipSet: {
     display: "flex",
-    justifyContent: "left",
-    alignItems: "left",
-    flexWrap: "wrap",
     listStyle: "none",
     padding: 1.3,
-    margin: 0,
+    margin: 1,
   },
   chipLabel: {
-    margin: 0.3,
+    display: "flex",
+    marginRight: 1,
+    marginLeft: 5,
+    listStyle: "none",
+  },
+  chipPaper: {
+    padding: 1.3,
+    margin: 1,
+    backgroundColor: "#bfbfbf",
   },
   fab: { 
     position: "fixed",
     top: 80,
-    right: 2,
+    right: 20,
   },
 };
 
@@ -36,6 +41,7 @@ const ActorDetails = ( {actor}) => {
 
   return (
     <>
+    {/* <Paper component="ul" sx={styles.bioSpace}> */}
       <Typography variant="h3" component="h3">
         {actor.name}
       </Typography>
@@ -43,34 +49,30 @@ const ActorDetails = ( {actor}) => {
       <Typography variant="h6" component="p"  mt={2}>
         {actor.biography}
       </Typography>
-      
-      <Paper component="ul" sx={styles.chipSet}>
+      {/* </Paper> */}
+      <Paper component="ul" sx={styles.chipSet} >
         <li>
-          <Chip icon={<PlaceIcon />}  label="Place of birth" sx={styles.chipLabel} color="primary" />
+          <Chip icon={<PlaceIcon />}  label="Place of birth" color="primary" sx={styles.chipLabel} />
         </li>
         <li>
         <Chip label={`${actor.place_of_birth}`} />
         </li>
-      </Paper>  
-      <Paper component="ul" sx={styles.chipSet}>      
         <li>
-          <Chip icon={<CakeIcon />}  label="Date of Birth" sx={styles.chipLabel} color="primary" />
+          <Chip icon={<CakeIcon />}  label="Date of Birth" color="primary"  sx={styles.chipLabel} />
         </li>
         <li>
             <Chip label={`${actor.birthday}`}/>
         </li>
-      </Paper>  
-      <Paper component="ul" sx={styles.chipSet}> 
         <li>
-          <Chip icon={<StarRate />}  label="Popularity Rating" sx={styles.chipLabel} color="primary" />
+          <Chip icon={<StarRate />}  label="Popularity Rating" color="primary"  sx={styles.chipLabel} />
         </li>  
         <li>
         <Chip label={`Popularity ${actor.popularity}`}/>  
-        </li>           
-      </Paper>
-      <Paper component="ul" sx={styles.chipSet}>
+        </li>
+        </Paper>
+        <Paper component="ul" sx={styles.chipSet}>
         <li>
-          <Chip label="Also Known As" sx={styles.chipLabel} color="primary" />
+          <Chip label="Also Known As" color="primary"  sx={styles.chipLabel} />
         </li>
         {actor.also_known_as.map((g) => (
           <li key={g}>

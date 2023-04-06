@@ -35,6 +35,9 @@ const styles = {
   avatarPlaylist: {
     backgroundColor: "rgb(255, 0, 0)",
   },
+  root: { 
+    backgroundColor: "#bfbfbf",
+  },
 };
 
 const ActorFilmography = () => {
@@ -60,7 +63,7 @@ const ActorFilmography = () => {
   return (
     <>
       <Box>
-        <Paper variant="outlined" elevation={1} style={{ padding: "15px" }}>
+        {/* <Paper variant="outlined" elevation={1} style={{ padding: "15px" }}> */}
 
           <Typography variant="h4" component="h3" mt={2}>
             Filmography
@@ -69,19 +72,24 @@ const ActorFilmography = () => {
           {actorCreds ? (
             <>
               {actorCreds.cast.map((data) => (
-                <>
-                <Grid item
+                <>                
+                <Grid //item
                   container 
-                  spacing={5} 
+                  // spacing={5} 
                   style={{ padding: "15px" }}
-                  direction="row"
-                  justifyContent="flex-start"
-                  alignItems="flex-start"
+                  // style={{ padding: 5em }}
+                  // direction="row"
+                  // justifyContent="flex-start"
+                  // alignItems="flex-start"
+                  // display="flex"
+                  // maxRows={3}
+                  // columns={{xs:12, sm:6, md:4, lg:3, xl:2}}
                   >
-                    <Grid key={data.id} item xs={12} sm={6} md={4} lg={3} xl={2} direction="row">
+                    <Grid key={data.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
+                    {/* <Grid key={data.id} item xs={12} sm={6} md={4} lg={3} xl={2} direction="row"></Grid> */}
                       <ActorFilmCard key={data.id} actorCredits={data} />
                     </Grid>
-                  </Grid>
+                  </Grid>                  
                 </>
               ))}
             </>
@@ -90,7 +98,7 @@ const ActorFilmography = () => {
           )
           }
 
-        </Paper>
+        {/* </Paper> */}
       </Box>
     </>
   );

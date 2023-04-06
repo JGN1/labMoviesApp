@@ -10,6 +10,7 @@ import Spinner from '../spinner'
 const styles = {
   root: { 
     backgroundColor: "#bfbfbf",
+    // padding: "15px",
   },
   gridListRoot: {
     display: "flex",
@@ -42,9 +43,12 @@ const TemplateActorPage = ({ actor, actorCredits, children }) => {
 
   return (
     <>
+      {/* <ActorHeader actor={actor} /> */}
+{/* // Changed this to get background grey */}
+      <Grid container spacing = {5} sx={styles.root}>
+      <Grid item xs={20}>
       <ActorHeader actor={actor} />
-
-      <Grid container spacing={5} style={{ padding: "15px" }}>
+      </Grid>
         <Grid item xs={2}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>

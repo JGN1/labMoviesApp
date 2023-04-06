@@ -11,10 +11,12 @@ import Avatar from "@mui/material/Avatar";
 const styles = {
     root: {  
     display: "flex",
+    // justifyContent: "center",
     justifyContent: "space-around",
     alignItems: "center",
     flexWrap: "wrap",
-    padding: 1.5,
+    padding: 2,
+    backgroundColor: "rgb(255, 255, 255)",
   },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
@@ -38,9 +40,9 @@ const ActorHeader = (props) => {
         {actor.title}{"   "}
         <a href={actor.name}>
           <HomeIcon color="primary"  fontSize="='large"/>
-        </a>
-        <br />
-        {/* <span>{`${actor.tagline}`} </span> */}
+        </a>{"        "}
+        <span>Actor Biography</span>
+        {/* <span>{`${actor.name}`} </span> */}
       </Typography>
       <IconButton aria-label="go forward">
         <ArrowForwardIcon color="primary" fontSize="large" />
