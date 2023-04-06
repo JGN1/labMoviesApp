@@ -7,7 +7,6 @@ import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
-  dateFilter,
 } from "../components/movieFilterUI";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 
@@ -23,17 +22,11 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const relDateFiltering = {
-  name: "relDate",
-  value: "",
-  condition: dateFilter,
-};
-
 const HomePage = (props) => {
   const { data, error, isLoading, isError } = useQuery("discover", getMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
-    [titleFiltering, genreFiltering, relDateFiltering]
+    [titleFiltering, genreFiltering]
   );
 
   if (isLoading) {
@@ -46,16 +39,11 @@ const HomePage = (props) => {
 
   const changeFilterValues = (type, value) => {
     const changedFilter = { name: type, value: value };
-    const updatedFilterSet =    
-    type === "title"
-        ? [changedFilter, filterValues[1], filterValues[2]]
-        : type === "genre"
-        ? [filterValues[0], changedFilter, filterValues[2]]
-        : type === "relDate"
-        ? [filterValues[0], filterValues[1], changedFilter]
-        : [filterValues[0], filterValues[1], changedFilter[2]];
+    const updatedFilterSet =
+      type === "title"
+        ? [changedFilter, filterValues[1]]
+        : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
-    console.log("this is updatedfilterset - " + JSON.stringify(updatedFilterSet));
   };
 
   const movies = data ? data.results : [];
@@ -74,7 +62,6 @@ const HomePage = (props) => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
-        dateFilter={filterValues[2].value}
       />
     </>
   );

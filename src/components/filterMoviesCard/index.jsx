@@ -11,7 +11,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
-import Spinner from '../spinner'
+import Spinner from '../spinner';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const styles = {
   root: {
@@ -26,71 +30,97 @@ const styles = {
   },
 };
 
-  export default function FilterMoviesCard(props) {
-    const { data, error, isLoading, isError } = useQuery("genres", getGenres);
-  
-    if (isLoading) {
-      return <Spinner />;
+export default function FilterMoviesCard(props) {
+  const { data, error, isLoading, isError } = useQuery("genres", getGenres);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+  const genres = data.genres;
+  if (genres[0].name !== "All") {
+    genres.unshift({ id: "0", name: "All" });
+  }
+
+  const handleUserImput = (e, type, value) => {
+    e.preventDefault();
+    props.onUserInput(type, value); // NEW        
+    console.log("Here is my filter value - " + value);
+    console.log("Here is my filter type - " + type);
+  };
+
+  const handleDateImput = (e, type, value) => {
+    props.onUserInput(type, value); // NEW        
+    console.log("Here is my filter value - " + value);
+    console.log("Here is my filter type - " + type);
+  };
+
+  const handleTextChange = (e, props) => {
+    handleUserImput(e, "title", e.target.value);
+  };
+
+  const handleGenreChange = (e) => {
+    handleUserImput(e, "genre", e.target.value);
+  };
+
+  const handleDateChange = (e, props) => {
+    if (e != null) {
+      console.log("value of e " + JSON.stringify(e).substring(1, 5));
+      handleDateImput(e, "relDate", JSON.stringify(e).substring(1, 5));
+    } else {
+      handleDateImput(e, "relDate", "");
     }
-  
-    if (isError) {
-      return <h1>{error.message}</h1>;
-    }
-    const genres = data.genres;
-    if (genres[0].name !== "All") {
-      genres.unshift({ id: "0", name: "All" });
-    }
-  
-    const handleUserImput = (e, type, value) => {
-      e.preventDefault();
-      props.onUserInput(type, value); // NEW
-    };
-  
-    const handleTextChange = (e, props) => {
-      handleUserImput(e, "title", e.target.value);
-    };
-  
-    const handleGenreChange = (e) => {
-      handleUserImput(e, "genre", e.target.value);
-    };
-    
+  };
+
   return (
     <>
-    <Card sx={styles.root} variant="outlined">
-      <CardContent>
-        <Typography variant="h5" component="h1">
-          <FilterAltIcon fontSize="large" />
-          Filter the movies.
-        </Typography>
-        <TextField
-          sx={styles.formControl}
-          id="filled-search"
-          label="Search field"
-          type="search"
-          value={props.titleFilter}
-          variant="filled"
-          onChange={handleTextChange}
-        />
-        <FormControl sx={styles.formControl}>
-          <InputLabel id="genre-label">Genre</InputLabel>
-          <Select
-            labelId="genre-label"
-            id="genre-select"
-            value={props.genreFilter}
-            onChange={handleGenreChange}
-          >
-            {genres.map((genre) => {
-              return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </CardContent>
-    </Card>
-    <Card sx={styles.root} variant="outlined">
+      <Card sx={styles.root} variant="outlined">
+        <CardContent>
+          <Typography variant="h5" component="h1">
+            <FilterAltIcon fontSize="large" />
+            Filter the movies.
+          </Typography>
+          <TextField
+            sx={styles.formControl}
+            id="filled-search"
+            label="Search field"
+            type="search"
+            value={props.titleFilter}
+            variant="filled"
+            onChange={handleTextChange}
+          />
+          <FormControl sx={styles.formControl}>
+            <InputLabel id="genre-label">Genre</InputLabel>
+            <Select
+              labelId="genre-label"
+              id="genre-select"
+              value={props.genreFilter}
+              onChange={handleGenreChange}
+            >
+              {genres.map((genre) => {
+                return (
+                  <MenuItem key={genre.id} value={genre.id}>
+                    {genre.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker', 'DatePicker']}>
+              <DatePicker label={'"year"'} views={['year']} value={props.dateFilter} onChange={handleDateChange} componentsProps={{
+                actionBar: {
+                  actions: ['clear'],
+                },
+              }} />
+            </DemoContainer>
+          </LocalizationProvider>
+        </CardContent>
+      </Card>
+      <Card sx={styles.root} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
@@ -98,6 +128,6 @@ const styles = {
           </Typography>
         </CardContent>
       </Card>
-      </>
+    </>
   );
 }

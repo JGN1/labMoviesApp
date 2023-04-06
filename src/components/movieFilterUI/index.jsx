@@ -12,6 +12,11 @@ export const genreFilter = function (movie, value) {
   return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
 
+export const dateFilter = function (movie, value) {
+  const releaseDate = Number(value);
+  return movie.release_date.search(value) !== -1;
+};
+
 const styles = {
   root: {
     backgroundColor: "#bfbfbf",
@@ -38,7 +43,7 @@ const MovieFilterUI = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
         Filter
       </Fab>
       <Drawer
-        anchor="left"
+        anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
@@ -46,6 +51,7 @@ const MovieFilterUI = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
           onUserInput={onFilterValuesChange}
           titleFilter={titleFilter}
           genreFilter={genreFilter}
+          dateFilter={dateFilter}
         />
       </Drawer>
     </>
