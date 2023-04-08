@@ -8,8 +8,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Avatar from "@mui/material/Avatar";
 
+
 const styles = {
-    root: {  
+  root: {
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
@@ -24,20 +25,18 @@ const styles = {
 const MovieHeader = (props) => {
   const movie = props.movie;
   // Get movies from local storage.
-  const favourite = JSON.parse(localStorage.getItem("favourites"));   
-  // console.log("Hello this is favourite -- " + favourite);
-  // console.log("movie id from props " + movie.id);
+  const favourite = JSON.parse(localStorage.getItem("favourites"));
 
   return (
-    <Paper component="div" sx={styles.root}>
+    <Paper component="div" sx={styles.root}>      
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
       {favourite ? <Avatar sx={styles.avatar}><FavoriteIcon /></Avatar> : null}
-      <Typography variant="h4" component="h3">              
+      <Typography variant="h4" component="h3">
         {movie.title}{"   "}
         <a href={movie.homepage}>
-          <HomeIcon color="primary"  fontSize="='large"/>
+          <HomeIcon color="primary" fontSize="='large" />
         </a>
         <br />
         <span>{`${movie.tagline}`} </span>

@@ -29,6 +29,7 @@ Actor Details page includes biography of Actor, photos of actor, and filmography
 The filmography section includes film cards that have complex interaction (found this ability in MUI documentation). 
     Clicking on chevron at bottom expands card to show overview. 
     Click on image links to movie details page to see film details. 
+    Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
 
 Filmography includes combined credits i.e. films and tv shows actor has starred in. The actorFilmography and actorFilmCard components were added to facilitate this.
 
@@ -62,4 +63,8 @@ Had to add additional function called handleDateChange in the filterMoviesCard c
 Additionally I used substring function to extract year from universal timestamp value the date picker returns.
 
 I also moved the Drawer component to right hand side of screen instead of left because when movies filtered down to one  or two, they were hidden behind the drawer.
+
+---------------------------------------------------------------------
+Pagination
+---------------------------------------------------------------------
 

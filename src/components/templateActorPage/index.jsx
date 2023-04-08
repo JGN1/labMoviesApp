@@ -8,14 +8,14 @@ import { useQuery } from "react-query";
 import Spinner from '../spinner'
 
 const styles = {
-  root: { 
+  root: {
     backgroundColor: "#bfbfbf",
     // padding: "15px",
   },
   gridListRoot: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-around",    
+    justifyContent: "space-around",
   },
   gridList: {
     width: 450,
@@ -24,7 +24,7 @@ const styles = {
 };
 
 const TemplateActorPage = ({ actor, actorCredits, children }) => {
-  const { data , error, isLoading, isError } = useQuery(
+  const { data, error, isLoading, isError } = useQuery(
     ["images", { id: actor.id }],
     getActorImages
   );
@@ -36,19 +36,19 @@ const TemplateActorPage = ({ actor, actorCredits, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = data.profiles 
-  
+  const images = data.profiles
+
   console.log("about to print it - ");
   console.log(JSON.stringify(actorCredits));
 
   return (
     <>
       {/* <ActorHeader actor={actor} /> */}
-{/* // Changed this to get background grey */}
-      <Grid container spacing = {5} sx={styles.root}>
-      <Grid item xs={20}>
-      <ActorHeader actor={actor} />
-      </Grid>
+      {/* // Changed this to get background grey */}
+      <Grid container spacing={5} sx={styles.root}>
+        <Grid item xs={20}>
+          <ActorHeader actor={actor} />
+        </Grid>
         <Grid item xs={2}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>

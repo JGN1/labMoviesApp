@@ -47,15 +47,11 @@ export default function FilterMoviesCard(props) {
 
   const handleUserImput = (e, type, value) => {
     e.preventDefault();
-    props.onUserInput(type, value); // NEW        
-    console.log("Here is my filter value - " + value);
-    console.log("Here is my filter type - " + type);
+    props.onUserInput(type, value); // NEW   
   };
 
   const handleDateImput = (e, type, value) => {
-    props.onUserInput(type, value); // NEW        
-    console.log("Here is my filter value - " + value);
-    console.log("Here is my filter type - " + type);
+    props.onUserInput(type, value); // NEW   
   };
 
   const handleTextChange = (e, props) => {

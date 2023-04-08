@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { getMovies } from "../api/tmdb-api";
+import { getPageMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
+// import useMoviePagination from "../hooks/useMoviePagination";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
@@ -30,7 +32,14 @@ const relDateFiltering = {
 };
 
 const HomePage = (props) => {
-  const { data, error, isLoading, isError } = useQuery("discover", getMovies);
+  // const page = props.page;
+  
+  // const [page, setPage] = React.useState(1)
+  const [page, setPage] = useState(1)
+
+  const {data, error, isLoading, isError } = useQuery(['page', page], getPageMovies);
+  // Original query for home page before adding pagination
+  // const { data, error, isLoading, isError } = useQuery("discover", getMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering, relDateFiltering]
@@ -64,7 +73,7 @@ const HomePage = (props) => {
   return (
     <>
       <PageTemplate
-        title="Discover Movies"
+        title={["Discover Movies",page]}
         movies={displayedMovies}
         action={(movie) => {
           return <AddToFavouritesIcon movie={movie} />
