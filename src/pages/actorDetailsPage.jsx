@@ -4,7 +4,8 @@ import ActorDetails from "../components/actorDetails";
 import ActorFilmography from "../components/actorFilmography";
 import PageTemplate from "../components/templateActorPage";
 import { getActor } from '../api/tmdb-api'
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 
 

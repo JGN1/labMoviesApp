@@ -1,5 +1,5 @@
-import React from 'react';
-import axios from 'axios';
+import React from 'react'
+import axios from 'axios'
 import {
   useQuery,
   useQueryClient,
@@ -7,6 +7,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+import { getPageMovies } from "../../api/tmdb-api";
 
 const queryClient = new QueryClient()
 
@@ -18,19 +20,20 @@ export default function App() {
   )
 }
 
-async function fetchProjects(page = 0) {
-  // const { data } = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=` + page)
-  const { data } = await axios.get('/api/projects?page=' + page)
-  return data
-}
+// async function fetchProjects(page = 0) {
+//   const { data } = await axios.get('/api/projects?page=' + page)
+//   return data
+// }
 
 function Example() {
   const queryClient = useQueryClient()
-  const [page, setPage] = React.useState(0)
+  const [page, setPage] = React.useState(1)
 
   const { status, data, error, isFetching, isPreviousData } = useQuery({
     queryKey: ['projects', page],
-    queryFn: () => fetchProjects(page),
+    queryFn: getPageMovies,
+    // queryKey: ['projects', page],
+    // queryFn: () => fetchProjects(page),
     keepPreviousData: true,
     staleTime: 5000,
   })
@@ -40,13 +43,17 @@ function Example() {
     if (!isPreviousData && data?.hasMore) {
       queryClient.prefetchQuery({
         queryKey: ['projects', page + 1],
-        queryFn: () => fetchProjects(page + 1),
+        queryFn: getPageMovies,
+        // queryFn: () => fetchProjects(page + 1),
       })
     }
   }, [data, isPreviousData, page, queryClient])
 
+
+  console.log("Projects content - " + JSON.stringify(data))
   return (
     <div>
+      <h1>Hello World</h1>
       <p>
         In this example, each page of data remains visible as the next page is
         fetched. The buttons and capability to proceed to the next page are also
@@ -63,23 +70,24 @@ function Example() {
         // `data` will either resolve to the latest page's data
         // or if fetching a new page, the last successful page's data
         <div>
-          {data.projects.map((project) => (
-            <p key={project.id}>{project.name}</p>
-          ))}
+           {data.results.map((movie) => (
+            <p key={movie.id}>{movie.title}</p>
+          ))}          
         </div>
       )}
-      <div>Current Page: {page + 1}</div>
+      <div>Current Page: {page}</div>
       <button
         onClick={() => setPage((old) => Math.max(old - 1, 0))}
-        disabled={page === 0}
+        disabled={page === 1}
       >
         Previous Page
       </button>{' '}
       <button
         onClick={() => {
-          setPage((old) => (data?.hasMore ? old + 1 : old))
+          setPage((page+1))
+          // setPage((old) => (data?.hasMore ? old + 1 : old))
         }}
-        disabled={isPreviousData || !data?.hasMore}
+        // disabled={isPreviousData || !data?.hasMore}
       >
         Next Page
       </button>
@@ -93,3 +101,8 @@ function Example() {
     </div>
   )
 }
+
+
+
+
+

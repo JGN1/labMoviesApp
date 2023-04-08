@@ -20,8 +20,9 @@ const styles = {
 };
 
 const Header = (props ) => {
-  const title = props.title
-  var page = props.title[1];
+  const title = props.title;
+  const page = props.page
+  // var page = props.title[1];
   console.log("Title - :" + props.title);
   console.log("Page - :" + props.title[1]);
   console.log("Props - :" + JSON.stringify(props));
@@ -32,7 +33,9 @@ const Header = (props ) => {
   // const [page, setPage] = React.useState(1)
   const handleChange = (event, value) => {
     // setPage(value);
-    page = value;
+    // page = value;
+    props.changePage(value);
+
     console.log("Page - :" + page);
   };
 

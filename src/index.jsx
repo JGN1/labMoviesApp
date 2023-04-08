@@ -8,14 +8,20 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
 import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMovies from "./pages/upcomingMovies";
 import PopularActors from "./pages/popularActors";
-// import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
+// import { QueryClientProvider, QueryClient } from "react-query";
+// import { ReactQueryDevtools } from 'react-query/devtools'
+import {
+  useQuery,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage'
 import PopularActorsPage from './pages/popularActors'
 import ActorDetailsPage from './pages/actorDetailsPage'
+// import Pagination from './hooks/usePagination.js'
 import Pagination from './components/pagination'
 
 const queryClient = new QueryClient({
@@ -35,7 +41,8 @@ const App = () => {
         <SiteHeader />      {/* New Header  */}
         <MoviesContextProvider>
           <Routes>
-          {/* <Route path="/pagination" element={<Pagination/>} />     */}
+          <Route path="/pagination" element={<Pagination/>} />    
+          {/* <Route path="/pagination" element={<Pagination/>} />    */}
             <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
             <Route path="/actors/popular" element={<PopularActorsPage/>} />          
             <Route path="/reviews/form" element={<AddMovieReviewPage/>} />

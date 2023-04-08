@@ -1,28 +1,17 @@
 import React, {useState} from "react";
 import PageTemplate from "../components/templateMovieListPage";
-// import { useQuery } from "react-query";
+import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { getMovies } from "../api/tmdb-api";
 import { getPageMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
+import usePagination from "../hooks/usePagination";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
   dateFilter,
 } from "../components/movieFilterUI";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
-
-
-import {
-  useQuery,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-// import usePagination from "../hooks/usePagination";
-const queryClient = new QueryClient()
-
 
 const titleFiltering = {
   name: "title",
@@ -43,34 +32,15 @@ const relDateFiltering = {
 };
 
 const HomePage = (props) => {
- 
-  //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-  const [page, setPage] = React.useState(1)
-  const changePage = (pgNo) => {
-    setPage(pgNo);
-  };
+  // const [page, setPage] = useState(1)
 
-  const { status, data, error, isFetching, isPreviousData } = useQuery({
-    queryKey: ['pageMovies', page],
-    queryFn: getPageMovies,
-    keepPreviousData: true,
-    staleTime: 5000,
-  })
+  console.log("Heading into usePagination---- ");
+  const {data, error, isLoading, isError } = usePagination();
 
-  // Prefetch the next page!
-  React.useEffect(() => {
-    if (!isPreviousData && data?.hasMore) {
-        queryClient.prefetchQuery({
-        queryKey: ['pageMovies', page + 1],
-        queryFn: getPageMovies,
-      })
-    }
-  }, [data, isPreviousData, page, queryClient])
+  console.log("Data back in the homepage ---- " + data.results);
 
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   // const {data, error, isLoading, isError } = useQuery(['page', page], getPageMovies);
-
   // Original query for home page before adding pagination
   // const { data, error, isLoading, isError } = useQuery("discover", getMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -78,13 +48,11 @@ const HomePage = (props) => {
     [titleFiltering, genreFiltering, relDateFiltering]
   );
 
-  if (isFetching) {
-    // if (isLoading) {
+  if (isLoading) {
     return <Spinner />;
   }
 
-  if (error) {
-    // if (isError) {
+  if (isError) {
     return <h1>{error.message}</h1>;
   }
 
@@ -110,8 +78,6 @@ const HomePage = (props) => {
       <PageTemplate
         title={["Discover Movies",page]}
         movies={displayedMovies}
-        changePage={changePage}
-        page={page}
         action={(movie) => {
           return <AddToFavouritesIcon movie={movie} />
         }}

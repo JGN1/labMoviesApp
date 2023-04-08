@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getActorCombinedCredits } from '../../api/tmdb-api'
 import Spinner from '../spinner'
 import Grid from "@mui/material/Grid";

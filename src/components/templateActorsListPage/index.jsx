@@ -9,11 +9,11 @@ const styles = {
   }
 };
 
-function ActorListPageTemplate({ actors, title, action }) {
+function ActorListPageTemplate({ actors, title, page, changePage, action }) {
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={20}>
-        <Header title={title} />
+        <Header title={title} changePage={changePage} page={page}/>
       </Grid>
       <Grid item container spacing={5}>
       <ActorList action={action} actors={actors} />

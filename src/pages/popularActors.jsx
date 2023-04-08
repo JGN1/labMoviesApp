@@ -1,6 +1,7 @@
 import React from "react";
 import PageTemplate from "../components/templateActorsListPage";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
+import { useQuery, QueryClient } from "@tanstack/react-query";
 import Spinner from "../components/spinner";
 import { getPopularActors } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -10,6 +11,8 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import AddMustWatchIcon from '../components/cardIcons/addToMustWatch'
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+
+const queryClient = new QueryClient()
 
 // const titleFiltering = {
 //   name: "title",
@@ -23,17 +26,44 @@ import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 // };
 
 const PopularActors = (props) => {
-  const { data, error, isLoading, isError } = useQuery("Popular Actors", getPopularActors);
+ //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+ const [page, setPage] = React.useState(1)
+ const changePage = (pgNo) => {
+   setPage(pgNo);
+ };
+
+ const { status, data, error, isFetching, isPreviousData } = useQuery({
+   queryKey: ['Popular Actors', page],
+   queryFn: getPopularActors,
+   keepPreviousData: true,
+   staleTime: 5000,
+ })
+
+ // Prefetch the next page!
+ React.useEffect(() => {
+   if (!isPreviousData && data?.hasMore) {
+       queryClient.prefetchQuery({
+       queryKey: ['pageMovies', page + 1],
+       queryFn: getPageMovies,
+     })
+   }
+ }, [data, isPreviousData, page, queryClient])
+
+ //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ // Original query for home page before adding pagination
+
+  // const { data, error, isLoading, isError } = useQuery(["Popular Actors"], getPopularActors);
   // const { filterValues, setFilterValues, filterFunction } = useFiltering(
   //   [],
   //   [titleFiltering, genreFiltering]
   // );
 
-  if (isLoading) {
+  if (isFetching) {
     return <Spinner />;
   }
 
-  if (isError) {
+  if (error) {
     return <h1>{error.message}</h1>;
   }
 
@@ -54,6 +84,8 @@ const PopularActors = (props) => {
       <PageTemplate
         title="Popular Actors"
         actors={actors}
+        changePage={changePage}
+        page={page}
         // actors={displayedActors}
         action={(actor) => {
           return <AddMustWatchIcon movie={actor} /> 
