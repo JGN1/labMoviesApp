@@ -41,20 +41,23 @@ const relDateFiltering = {
 const FavouriteMoviesPage = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
   console.log(JSON.stringify({favourites: movieIds}));
+  console.log(JSON.stringify({movieIds}));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering, relDateFiltering]
   );
 
   // Create an array of queries and run them in parallel.
-  const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
-      return {
-        queryKey: ["movie", { id: movieId }],
+  const favouriteMovieQueries = useQueries({
+      queries: movieIds.map((movieId) => {
+      console.log("This is the favourites mapping - " +movieId);
+      return {        
+        queryKey: ['movie', {id: movieId}],
         queryFn: getMovie,
-      };
-    })
-  );
+      }
+    }),
+  })
+
   // Check if any of the parallel queries is still loading.
   const isLoading = favouriteMovieQueries.find((m) => m.isLoading === true);
 
@@ -63,10 +66,9 @@ const FavouriteMoviesPage = () => {
   }
 
   const allFavourites = favouriteMovieQueries.map((q) => q.data);
-  const displayedMovies = filterFunction(movies);
-  // const displayMovies = allFavourites
-  //   ? filterFunction(allFavourites)
-  //   : [];
+  const displayMovies = allFavourites
+    ? filterFunction(allFavourites)
+    : [];
 
   // const toDo = () => true;
 

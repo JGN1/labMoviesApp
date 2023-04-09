@@ -14,7 +14,7 @@
 
   //Added following query to get paginated results for home page
   export const getPageMovies = (page) => {
-    console.log("Here is pagination page queryKey value - " + page.queryKey[1])
+    // console.log("Here is pagination page queryKey value - " + page.queryKey[1])    
     return fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page.queryKey[1]}`
     ).then((response) => {
@@ -29,7 +29,7 @@
   };
   
   export const getMovie = (args) => {
-    // console.log(args)
+    console.log(args)
     const [, idPart] = args.queryKey;
     const { id } = idPart;
     return fetch(

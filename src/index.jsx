@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
 import SiteHeader from './components/siteHeader'
@@ -24,6 +24,15 @@ import ActorDetailsPage from './pages/actorDetailsPage'
 // import Pagination from './hooks/usePagination.js'
 import Pagination from './components/pagination'
 
+// Adding following for Supabase Authentication
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
+// const [session, setSession] = useState(null);
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -35,12 +44,13 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  return (
+  return (    
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />      {/* New Header  */}
         <MoviesContextProvider>
           <Routes>
+          {/* <Route path="/auth" element={<Authentication/>} />   */}
           <Route path="/pagination" element={<Pagination/>} />    
           {/* <Route path="/pagination" element={<Pagination/>} />    */}
             <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
