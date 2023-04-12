@@ -7,7 +7,6 @@ import { getActor } from '../api/tmdb-api'
 // import { useQuery } from "react-query";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
-// import useAuth from "../hooks/useAuth";
 
 
 const ActorDetailsPage = () => {
