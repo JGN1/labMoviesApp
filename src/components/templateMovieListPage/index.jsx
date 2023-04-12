@@ -23,11 +23,11 @@ function MovieListPageTemplate({ movies, title, changePage, page, action }) {
       <Grid item container spacing={5}>
         <MovieList action={action} movies={movies} />
       </Grid>
-      <Grid item container sx={styles.item}>
+      {/* <Grid item container sx={styles.item}>
         <Grid item xs={2} style={{ alignItems: 'center' }}>
           <MovieAuth />
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

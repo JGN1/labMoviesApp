@@ -8,6 +8,7 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
 import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMovies from "./pages/upcomingMovies";
 import PopularActors from "./pages/popularActors";
+import PopularActorsAuth from "./pages/popularActorsAuth";
 // import { QueryClientProvider, QueryClient } from "react-query";
 // import { ReactQueryDevtools } from 'react-query/devtools'
 import {
@@ -37,27 +38,28 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 360000,
-      refetchInterval: 360000, 
+      refetchInterval: 360000,
       refetchOnWindowFocus: false
     },
   },
 });
 
 const App = () => {
-  return (    
+  return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />      {/* New Header  */}
         <MoviesContextProvider>
           <Routes>
-          {/* <Route path="/auth" element={<Authentication/>} />   */}
-          <Route path="/pagination" element={<Pagination/>} />    
-          {/* <Route path="/pagination" element={<Pagination/>} />    */}
-            <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
-            <Route path="/actors/popular" element={<PopularActorsPage/>} />          
-            <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
-            <Route path="/movies/upcoming" element={<UpcomingMovies/>} />      
-            <Route path="/reviews/:id" element={<MovieReviewPage/>} />
+            {/* <Route path="/auth" element={<Authentication/>} />   */}
+            <Route path="/pagination" element={<Pagination />} />
+            <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
+            <Route path="/actors/popular" element={<PopularActorsPage />} />
+            <Route path="/actors/popularAuth" element={<PopularActorsAuth supabase={supabase} />} />
+            {/* <Route path="/actors/popularAuth" element={<PopularActorsAuth supabase={supabase} session={session} setSession={setSession}/>} />       */}
+            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+            <Route path="/movies/upcoming" element={<UpcomingMovies />} />
+            <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
