@@ -10,13 +10,10 @@ import {
 import Spinner from "../components/spinner";
 // import { getUpcomingMovies } from "../api/tmdb-api";
 import { getPageUpcomingMovies } from "../api/tmdb-api";
-// import { getPagePopularTV } from "../api/tmdb-api";
-
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
-  dateFilter,
 } from "../components/movieFilterUI";
 import AddMustWatchIcon from '../components/cardIcons/addToMustWatch'
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
@@ -34,46 +31,40 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const relDateFiltering = {
-  name: "relDate",
-  value: "",
-  condition: dateFilter,
-};
 
 const UpcomingMovies = (props) => {
 
    
   //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-  const [upcomingPage, setUpcomingPage] = React.useState(1)
+  const [page, setPage] = React.useState(1)
   const changePage = (pgNo) => {
-    setUpcomingPage(pgNo);
+    setPage(pgNo);
   };
 
   const { status, data, error, isFetching, isPreviousData } = useQuery({
-    queryKey: ['upcomingPageMovies', upcomingPage],    
+    queryKey: ['pageMovies', page],
     queryFn: getPageUpcomingMovies,
-    // queryFn: getPagePopularTV,
     keepPreviousData: true,
     staleTime: 5000,
   })
 
-  // Prefetch the next upcomingPage!
+  // Prefetch the next page!
   React.useEffect(() => {
     if (!isPreviousData && data?.hasMore) {
         queryClient.prefetchQuery({
-        queryKey: ['upcomingPageMovies', upcomingPage + 1],
+        queryKey: ['pageMovies', page + 1],
         queryFn: getPageMovies,
       })
     }
-  }, [data, isPreviousData, upcomingPage, queryClient])
+  }, [data, isPreviousData, page, queryClient])
 
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  // Original query for home upcomingPage before adding pagination
+  // Original query for home page before adding pagination
   // const { data, error, isLoading, isError } = useQuery(["Upcoming Movies"], getUpcomingMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
-    [titleFiltering, genreFiltering, relDateFiltering]
+    [titleFiltering, genreFiltering]
   );
 
   if (isFetching) {
@@ -87,13 +78,9 @@ const UpcomingMovies = (props) => {
   const changeFilterValues = (type, value) => {
     const changedFilter = { name: type, value: value };
     const updatedFilterSet =
-    type === "title"
-        ? [changedFilter, filterValues[1], filterValues[2]]
-        : type === "genre"
-        ? [filterValues[0], changedFilter, filterValues[2]]
-        : type === "relDate"
-        ? [filterValues[0], filterValues[1], changedFilter]
-        : [filterValues[0], filterValues[1], changedFilter[2]];
+      type === "title"
+        ? [changedFilter, filterValues[1]]
+        : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
   };
 
@@ -106,7 +93,7 @@ const UpcomingMovies = (props) => {
         title="Upcoming Movies"
         movies={displayedMovies}
         changePage={changePage}
-        upcomingPage={upcomingPage}
+        page={page}
         action={(movie) => {
           return <AddMustWatchIcon movie={movie} /> 
           // return <PlayListAddIcon movie={movie} />          
@@ -117,7 +104,6 @@ const UpcomingMovies = (props) => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
-        dateFilter={filterValues[2].value}
       />
     </>
   );

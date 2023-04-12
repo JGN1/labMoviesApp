@@ -32,7 +32,17 @@ const styles = {
 };
 
 export default function FilterMoviesCard(props) {
-  const { data, error, isLoading, isError } = useQuery("genres", getGenres);
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ["genres"],
+    queryFn: getGenres,
+  });
+
+  // const { status, data, error, isFetching, isPreviousData } = useQuery({
+  //   queryKey: ['pageMovies', page],
+  //   queryFn: getPageMovies,
+  //   keepPreviousData: true,
+  //   staleTime: 5000,
+  // })
 
   if (isLoading) {
     return <Spinner />;

@@ -40,21 +40,23 @@ const relDateFiltering = {
 
 const FavouriteMoviesPage = () => {
   const { favourites: movieIds } = useContext(MoviesContext);
-  console.log(JSON.stringify({favourites: movieIds}));
+  console.log(JSON.stringify({ favourites: movieIds }));
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [],
     [titleFiltering, genreFiltering, relDateFiltering]
   );
 
   // Create an array of queries and run them in parallel.
-  const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
+  const favouriteMovieQueries = useQueries({
+    queries: movieIds.map((movieId) => {
+      console.log("This is the favourites mapping - " + movieId);
       return {
-        queryKey: ["movie", { id: movieId }],
+        queryKey: ['movie', { id: movieId }],
         queryFn: getMovie,
-      };
-    })
-  );
+      }
+    }),
+  })
+
   // Check if any of the parallel queries is still loading.
   const isLoading = favouriteMovieQueries.find((m) => m.isLoading === true);
 
@@ -63,10 +65,14 @@ const FavouriteMoviesPage = () => {
   }
 
   const allFavourites = favouriteMovieQueries.map((q) => q.data);
-  const displayedMovies = filterFunction(movies);
+  // const displayedMovies = filterFunction(movies);
   // const displayMovies = allFavourites
   //   ? filterFunction(allFavourites)
   //   : [];
+
+  const displayMovies = allFavourites
+    ? filterFunction(allFavourites)
+    : [];
 
   // const toDo = () => true;
 
@@ -81,14 +87,14 @@ const FavouriteMoviesPage = () => {
 
   const changeFilterValues = (type, value) => {
     const changedFilter = { name: type, value: value };
-    const updatedFilterSet =    
-    type === "title"
+    const updatedFilterSet =
+      type === "title"
         ? [changedFilter, filterValues[1], filterValues[2]]
         : type === "genre"
-        ? [filterValues[0], changedFilter, filterValues[2]]
-        : type === "relDate"
-        ? [filterValues[0], filterValues[1], changedFilter]
-        : [filterValues[0], filterValues[1], changedFilter[2]];
+          ? [filterValues[0], changedFilter, filterValues[2]]
+          : type === "relDate"
+            ? [filterValues[0], filterValues[1], changedFilter]
+            : [filterValues[0], filterValues[1], changedFilter[2]];
     setFilterValues(updatedFilterSet);
     console.log("this is updatedfilterset - " + JSON.stringify(updatedFilterSet));
   };
