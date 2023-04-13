@@ -65,6 +65,63 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 
 ![][image102]
 
+> FilmCard in Filography section includes complex interaction. Picture is link to film details. Film can be added to favourites using icon. Chevron on right hand side can be clicked to give filem details
+
+![][image103]
+
+> Following shows expanded film description and favourite icon selected.
+
+![][image104]
+
+---------------------------------------------------------------------
+
+#### Enhanced Filter
+---------------------------------------------------------------------
+Added Enhaced filter on Home screen to allow fileter by year. For this made changes on 
+Pages:
++   homepage.jsx
+
+Components:
++   movieFilterUI
++   filterMoviesCard
+
+Incorporated @mui/x-date-pickers from MUI and set to year only date picker.
+Had to install following to make work...
+
++ npm install @mui/material @emotion/react @emotion/styled
++ npm install dayjs --save
+
+Had to add additional function called handleDateChange in the filterMoviesCard component. Datepicker sends value of datepicker instead of event object. This led to errors when the original handleInputUser function called e.preverntDefaults(); 
+
+Additionally I used substring function to extract year from universal timestamp value the date picker returns.
+
+I also moved the Drawer component to right hand side of screen instead of left because when movies filtered down to one  or two, they were hidden behind the drawer.
+
+> Following shows expanded film description and favourite icon selected.
+
+![][image105]
+
+> Same screen with 2019 selected for the year.
+
+![][image106]
+
+---------------------------------------------------------------------
+#### Pagination
+---------------------------------------------------------------------
+
+Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+
+Changing over to @tanstack/react-query broke favourites page so had to refactor section of code to make work again (around useQueries and mapping section). 
+
+Pagination added in headerMovieList/index.jsx which is reused across Homepage, Upcoming Movies, Popular Actors and Favourites pages. Having like this avoids repetition of code. 
+
+Refactored code in headerMovieList to remove back and forward arrow icons since @MUI pagination being used to provide navigation back and forth between pages. Added Grid to header to allow for better formatting and positioning of content. 
+
+> Pagination added for multiple pages by adding to site header to eliminate duplication of code.
+
+![][image107]
+
+
 ---------------------------------------------------------------------
 
 e.g. 
