@@ -27,8 +27,45 @@ __Name:__ Joe Nunan
 [ For each feature listed in the overview, show a screenshot(s) of its UI layout (use appropriate magnification for accessibility). Include captions with the images.]
 
 #### Popular Actors and Details Sections
+---------------------------------------------------------------------
+Additional actor specific API calls in tmdb-api.js
+Components:
++   actorCard
++   ActorDetails
++   actorList
++   headerActor
++   templateActorPage
++   templateActorsListPage
++   actorFilmography
++   actorFilmCard
 
+Actors Pages:
++   actorDetailsPage.jsx
++   popularActors.jsx
 
+Actors Routing:
++   Added additional routes in src/index.jsx for actors pages
++      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
++      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
+
+Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for. Created actoreFilmCard component for displaying actors. This includes CardActionArea which links to Actor Details screen. Navigation to Actor Details screen can also be carried out through More Info button. Actors Details screen is protected route so user needs to be logged in to access.
+
+The filmography section includes film cards that have complex interaction (found this ability in MUI documentation). 
++   Clicking on chevron at bottom expands card to show overview. 
++   Click on image links to movie details page to see film details. 
++   Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
+
+Filmography includes combined credits i.e. films and tv shows actor has starred in. The actorFilmography and actorFilmCard components were added to facilitate this.
+
+> New Popular Actors page. Multipage pagination, new Actor card components. Picture has CardActionArea, so user can either click picture or 'More Info' button to get to Actor Details Screen.
+
+![][popularActors.png]
+
+> New Actors Details page. Displays Actor Biography, Chip labels with key pieces of information such as place of birth, photos of actor and filmography section.
+
+![][actorDetailsPage.png]
+
+---------------------------------------------------------------------
 
 e.g. 
 

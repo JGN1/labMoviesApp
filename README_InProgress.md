@@ -21,15 +21,15 @@ Actors Pages:
 
 Actors Routing:
 +   Added additional routes in src/index.jsx for actors pages
-++      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
-++      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
++      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
++      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
 
 Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for.
 
 The filmography section includes film cards that have complex interaction (found this ability in MUI documentation). 
-    Clicking on chevron at bottom expands card to show overview. 
-    Click on image links to movie details page to see film details. 
-    Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
++   Clicking on chevron at bottom expands card to show overview. 
++   Click on image links to movie details page to see film details. 
++   Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
 
 Filmography includes combined credits i.e. films and tv shows actor has starred in. The actorFilmography and actorFilmCard components were added to facilitate this.
 
