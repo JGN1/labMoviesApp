@@ -1,12 +1,62 @@
-import { useRef, useState } from "react";
-import { Alert, Button, Card, Form } from 'react-bootstrap';
-// import { Alert, Button, Card, FormGroup } from '@mui/material';
+import React, { useRef, useState } from "react";
+// import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { Alert, Box, Button, Card, CardContent, CardHeader, Container, FormControl, FormGroup, FormLabel, TextField, Typography } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Grid from "@mui/material/Grid";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authProvider";
 
-const Login = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+const styles = {
+  cardHeader: {
+    backgroundColor: "#1976d2",
+    color: "#fff"
+  },
+  card: {
+    maxWidth: 450,
+  },
+  gridStyles: {
+    paddingBottom: 1,
+    paddingRight: 2,
+    paddingLeft: 1,
+    marginTop: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: 500
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '80vh'
+  },
+  boxStyles: {
+    paddingBottom: 1,
+    paddingTop: 3,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  formControl: {
+    m: 2,
+    width: '40ch'
+  },
+  button: {
+    m: 2,
+    width: '41ch',
+  }
+};
+
+const Login = (props) => {
+  console.log("Login Props - " + JSON.stringify(props));
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  // const emailRef = useRef(null);
+  // const passwordRef = useRef(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -17,6 +67,8 @@ const Login = () => {
     try {
       setErrorMsg("");
       setLoading(true);
+      console.log("Email Ref value " + emailRef.current.value)
+      console.log("Password Ref value " + passwordRef.current.value)
       if (!passwordRef.current?.value || !emailRef.current?.value) {
         setErrorMsg("Please fill in fields");
         return;
@@ -33,11 +85,133 @@ const Login = () => {
     setLoading(false);
   };
 
+  // Following for show password in text field
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Login</h2>
+      <Container sx={styles.container}>
+        <Card sx={styles.card} variant="outlined">
+          <CardHeader title="TMDB Client - User Login" sx={styles.cardHeader} />
+          <CardContent>
+            <Box sx={styles.boxStyles} component="form" onSubmit={handleSubmit} >
+              <FormControl sx={styles.formControl} variant="outlined"
+                type='email'
+                required>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <OutlinedInput
+                  id="email"
+                  type='text'
+                  inputRef={emailRef}
+                  endAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                  label="Email"
+                />
+              </FormControl>
+              <FormControl sx={styles.formControl} variant="outlined"
+                required>
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  inputRef={passwordRef}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+              {errorMsg && (
+                <Alert
+                  variant="danger"
+                  onClose={() => setErrorMsg("")}
+                  dismissible>
+                  {errorMsg}
+                </Alert>
+              )}
+              <div className="text-center mt-2">
+                <Button variant="contained" sx={styles.button} disabled={loading} type="submit" >
+                  Login
+                </Button>
+              </div>
+              <Grid container sx={styles.gridStyles}>
+                <Grid item xs>
+                  <Typography>
+                    <Link to={"/register"}>
+                      Forgot password?
+                    </Link>
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    <Link to={"/register"}>
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Box>
+
+
+
+
+            {/* <FormGroup>
+                  <FormLabel>
+                    Email
+                  </FormLabel>
+                  <FormControl
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    autoComplete='email'
+                    autoFocus
+                    ref={emailRef}
+                    required
+                  /> */}
+
+            {/* <TextField
+                id='email'
+                label='Email Address'
+                name='email'
+                autoComplete='email'
+                autoFocus
+                ref={emailRef} 
+                required 
+              /> */}
+            {/* </FormGroup> */}
+
+            {/* <Box>
+              <TextField
+                id='password'
+                label='Password'
+                name='password'
+                autoComplete='password'
+                ref={passwordRef}
+                required
+                type='password'
+              />
+            </Box> */}
+          </CardContent>
+
+
+
+          {/* <h2 className="text-center mb-4">Login</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
@@ -64,8 +238,9 @@ const Login = () => {
         </Card.Body>
         <div className="w-100 text-center mt-2">
           New User? <Link to={"/register"}>Register</Link>
-        </div>
-      </Card>
+        </div> */}
+        </Card>
+      </Container>
     </>
   );
 };

@@ -36,7 +36,7 @@ const SiteHeader = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   //New vvvvvvvvvvvvvvvvvvvvvvv
-  const context = useContext(useAuth);
+  // const context = useContext(useAuth);
 
   const { auth, signOut } = useAuth();
   console.log ("here is Auth hdhd - " + auth);

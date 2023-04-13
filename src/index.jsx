@@ -49,18 +49,17 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <SiteHeader />      {/* New Header  */}
         <AuthProvider>
+          <SiteHeader />      {/* New Header  */}
           <MoviesContextProvider>
             <Routes>
+              {/* Items within the AuthRoute route element require authentication to access  */}
               <Route element={<AuthRoute />}>
                 <Route path="/homeauth" element={<Home />} />
+              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
               </Route>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-
-
-              {/* <Route path="/auth" element={<Authentication/>} />   */}
               <Route path="/pagination" element={<Pagination />} />
               {/* <Route path="/pagination" element={<Pagination/>} />    */}
               <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
@@ -68,7 +67,6 @@ const App = () => {
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
               <Route path="/movies/upcoming" element={<UpcomingMovies />} />
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
-              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
