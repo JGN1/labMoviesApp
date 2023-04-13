@@ -68,3 +68,35 @@ I also moved the Drawer component to right hand side of screen instead of left b
 Pagination
 ---------------------------------------------------------------------
 
+Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+
+Changing over to @tanstack/react-query broke favourites page so had to refactor section of code to make work again (around useQueries and mapping section). 
+
+Pagination added in headerMovieList/index.jsx which is reused across Homepage, Upcoming Movies, Popular Actors and Favourites pages. Having like this avoids repetition of code. 
+
+Refactored code in headerMovieList to remove back and forward arrow icons since @MUI pagination being used to provide navigation back and forth between pages. Added Grid to header to allow for better formatting and positioning of content. 
+
+---------------------------------------------------------------------
+Login
+---------------------------------------------------------------------
+
+Added authentication with Supabase. Created new AuthContext and wrapped all elements in it in index.js. AuthContext reaches carries out email login verification against users table on the account. Added keys to .env file and created supabase/client.js to create client instance that can be used across the application.
+
+Created custom login page and added login/logout menu item to siteheader (toggles between two depending on whether logged in or not). 
+Pages:
+    login.jsx
+
+Components:
+    authRoute
+
+Contexts:
+    authProvider
+
+Added following pages to authenticated routes:
+    <Route element={<AuthRoute />}>
+        <Route path="/homeauth" element={<Home />} />
+        <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+        <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
+        <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+        <Route path="/reviews/:id" element={<MovieReviewPage />} />
+    </Route>

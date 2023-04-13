@@ -67,8 +67,8 @@ const Login = (props) => {
     try {
       setErrorMsg("");
       setLoading(true);
-      console.log("Email Ref value " + emailRef.current.value)
-      console.log("Password Ref value " + passwordRef.current.value)
+      // console.log("Email Ref value " + emailRef.current.value)
+      // console.log("Password Ref value " + passwordRef.current.value)
       if (!passwordRef.current?.value || !emailRef.current?.value) {
         setErrorMsg("Please fill in fields");
         return;
@@ -78,7 +78,7 @@ const Login = (props) => {
         error
       } = await login(emailRef.current.value, passwordRef.current.value);
       if (error) setErrorMsg(error.message);
-      if (user && session) navigate("/homeauth");
+      if (user && session) navigate("/");
     } catch (error) {
       setErrorMsg("Email or Password Incorrect");
     }

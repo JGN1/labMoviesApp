@@ -33,6 +33,7 @@ import Login from "./pages/login"
 import AuthRoute from './components/authRoute'
 // import AuthRoute from "./components/AuthRoute";
 import Home from "./pages/home";
+import WatchlistMoviesPage from "./pages/watchListPage";
 
 
 const queryClient = new QueryClient({
@@ -56,20 +57,23 @@ const App = () => {
               {/* Items within the AuthRoute route element require authentication to access  */}
               <Route element={<AuthRoute />}>
                 <Route path="/homeauth" element={<Home />} />
-              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
+                <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+                <Route path="/reviews/:id" element={<MovieReviewPage />} />
               </Route>
+              {/* Following routes do not require authentication. */}
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/pagination" element={<Pagination />} />
-              {/* <Route path="/pagination" element={<Pagination/>} />    */}
-              <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
               <Route path="/actors/popular" element={<PopularActorsPage />} />
-              <Route path="/reviews/form" element={<AddMovieReviewPage />} />
               <Route path="/movies/upcoming" element={<UpcomingMovies />} />
-              <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
+              {/* <Route path="/pagination" element={<Pagination />} /> */}
+              {/* <Route path="/pagination" element={<Pagination/>} />    */}
+              {/* <Route path="/actors/profile/:id" element={<ActorDetailsPage />} /> */}
             </Routes>
           </MoviesContextProvider>
         </AuthProvider>

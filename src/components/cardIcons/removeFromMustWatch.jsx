@@ -7,8 +7,10 @@ const RemoveFromMustWatchIcon = ({ movie }) => {
   const context = useContext(MoviesContext);
 
   const onUserRequest = (e) => {
-    e.preventDefault();
-    context.removeMustWatch(movie);
+    e.preventDefault();   
+    console.log("Got into on User request removefromfavourites") 
+    context.removeFromMustWatch(movie);
+    // context.removeMustWatch(movie);
   };
 
 return (

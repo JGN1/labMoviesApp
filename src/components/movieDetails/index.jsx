@@ -25,9 +25,9 @@ const styles = {
   },
   fab: { 
     position: "fixed",
-    top: 50,
-    right: 2,
-  },
+    top: 90,
+    right: 10,
+  }
 };
 
 const MovieDetails = ( {movie}) => {
@@ -65,6 +65,9 @@ const MovieDetails = ( {movie}) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+          {/* <Changes></Changes> */}
+          
+
       <Fab    
         color="secondary"
         variant="extended"

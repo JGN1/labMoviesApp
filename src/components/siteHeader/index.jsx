@@ -14,7 +14,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 //New
 import { useAuth } from '../../contexts/authProvider';
-import { supabase } from "../../supabase/client";
 
 const styles = {
   title: {
@@ -58,11 +57,12 @@ const SiteHeader = () => {
   const menuOptions = [
     { label: "Home", path: "/" },    
     { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Favorites", path: "/movies/favourites" },
     { label: "Popular Actors", path: "/actors/popular" },
-    { label: "Maybe TV???", path: "/" },
-    { label: "Auth Actors", path: "/actors/popularAuth" },
-    { label: "HomeAuth", path: "/homeauth" },    
+    { label: "Favorites", path: "/movies/favourites" },
+    { label: "Watch List", path: "/movies/watchlist" },    
+    // { label: "Maybe TV???", path: "/" },
+    // { label: "Auth Actors", path: "/actors/popularAuth" },
+    // { label: "HomeAuth", path: "/homeauth" },    
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -123,7 +123,7 @@ const SiteHeader = () => {
                     key={"Login"}
                     onClick={() => handleMenuSelect("/login")}                     
                   >
-                    Login1
+                    Login
                   </MenuItem>
                 )}
                 {auth && (
@@ -151,12 +151,12 @@ const SiteHeader = () => {
                   Login
                 </Button>
               )}
-              {/* {auth && ( */}
+              {auth && (
               <Button onClick={handleLogout} style={{color: 'white'}}>
               {/* <Button onClick={() => handleLogout()}> */}
                   Logout
                 </Button>
-              {/* )} */}
+              )}
             </>
           )}
         </Toolbar>

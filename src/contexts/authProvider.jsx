@@ -13,7 +13,7 @@ const signOut = () => supabase.auth.signOut();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
-
+  
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
         console.log("EVENT in authProvider is - " + event);

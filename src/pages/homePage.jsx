@@ -108,7 +108,8 @@ const HomePage = (props) => {
   return (
     <>
       <PageTemplate
-        title={["Discover Movies",page]}
+        title={["Discover Movies"]}
+        // title={["Discover Movies",page]}
         movies={displayedMovies}
         changePage={changePage}
         page={page}
