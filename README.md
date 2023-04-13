@@ -76,6 +76,7 @@ e.g.
 ![][image1]
 
 #### Movies Reviews feature.
+![][actorDetailsPage]
 
 > Lists all the reviews for a particular movie (text extract only).
 
