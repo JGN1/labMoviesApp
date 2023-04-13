@@ -59,19 +59,19 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 
 > New Popular Actors page. Multipage pagination, new Actor card components. Picture has CardActionArea, so user can either click picture or 'More Info' button to get to Actor Details Screen.
 
-![][image101]
+![](images/image101.png)
 
 > New Actors Details page. Displays Actor Biography, Chip labels with key pieces of information such as place of birth, photos of actor and filmography section.
 
-![][image102]
+![](images/image102.png)
 
 > FilmCard in Filography section includes complex interaction. Picture is link to film details. Film can be added to favourites using icon. Chevron on right hand side can be clicked to give filem details
 
-![][image103]
+![](images/image103.png)
 
 > Following shows expanded film description and favourite icon selected.
 
-![][image104]
+![](images/image104.png)
 
 ---------------------------------------------------------------------
 
@@ -99,11 +99,11 @@ I also moved the Drawer component to right hand side of screen instead of left b
 
 > Following shows expanded film description and favourite icon selected.
 
-![][image105]
+![](images/image105.png)
 
 > Same screen with 2019 selected for the year.
 
-![][image106]
+![](images/image106.png)
 
 ---------------------------------------------------------------------
 #### Pagination
@@ -119,7 +119,7 @@ Refactored code in headerMovieList to remove back and forward arrow icons since 
 
 > Pagination added for multiple pages by adding to site header to eliminate duplication of code.
 
-![][image107]
+![](image107)
 
 
 ---------------------------------------------------------------------
