@@ -1,102 +1,86 @@
-Movies application for MSc in Computing (Enterprise Software Systems)
+# Enterprise Web Development - Assignment 1.
 
-Additional items as part of Assignment
----------------------------------------------------------------------
-Actors section
----------------------------------------------------------------------
-Additional actor specific API calls in tmdb-api.js
-Components:
-    actorCard
-    ActorDetails
-    actorList
-    headerActor
-    templateActorPage
-    templateActorsListPage
-    actorFilmography
-    actorFilmCard
+__Name:__ Joe Nunan
 
-Actors Pages:
-    actorDetailsPage.jsx
-    popularActors.jsx
+## Overview.
 
-Actors Routing:
-    Added additional routes in src/index.jsx for actors pages
-        <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
-        <Route path="/actors/popular" element={<PopularActorsPage/>} />  
+[A bullet-point list of the features developed for the React SPA app (new/modified ones only for the Movies app),]
 
-Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for.
++ Feature X.
++ Feature Y. 
++ etc.
 
-The filmography section includes film cards that have complex interaction (found this ability in MUI documentation). 
-    Clicking on chevron at bottom expands card to show overview. 
-    Click on image links to movie details page to see film details. 
-    Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
+## Feature Design.
 
-Filmography includes combined credits i.e. films and tv shows actor has starred in. The actorFilmography and actorFilmCard components were added to facilitate this.
+[ For each feature listed in the overview, show a screenshot(s) of its UI layout (use appropriate magnification for accessibility). Include captions with the images.]
 
----------------------------------------------------------------------
-Similar Movies
----------------------------------------------------------------------
+e.g. 
 
----------------------------------------------------------------------
-TV Series
----------------------------------------------------------------------
+#### The Upcoming Movies feature.
 
----------------------------------------------------------------------
-Enhanced Filter
----------------------------------------------------------------------
-Added Enhaced filter on Home screen to allow fileter by year. For this made changes on 
-Pages:
-    homepage.jsx
+> Lists movies from the Upcoming movies endpoint of TMDB
 
-Components:
-    movieFilterUI
-    filterMoviesCard
+![][image1]
 
-Incorporated @mui/x-date-pickers from MUI and set to year only date picker.
-Had to install following to make work...
+#### Movies Reviews feature.
 
-npm install @mui/material @emotion/react @emotion/styled
-npm install dayjs --save
+> Lists all the reviews for a particular movie (text extract only).
 
-Had to add additional function called handleDateChange in the filterMoviesCard component. Datepicker sends value of datepicker instead of event object. This led to errors when the original handleInputUser function called e.preverntDefaults(); 
+![][image2]
 
-Additionally I used substring function to extract year from universal timestamp value the date picker returns.
+> Click the 'Full Review' link of an entry in the above list to show the full text of a review. 
 
-I also moved the Drawer component to right hand side of screen instead of left because when movies filtered down to one  or two, they were hidden behind the drawer.
+![][image3]
 
----------------------------------------------------------------------
-Pagination
----------------------------------------------------------------------
+.... other features .......
 
-Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+## Storybook.
 
-Changing over to @tanstack/react-query broke favourites page so had to refactor section of code to make work again (around useQueries and mapping section). 
+[ Include a screenshot(s) from the Storybook UI and highlight the stories for new components developed.]
 
-Pagination added in headerMovieList/index.jsx which is reused across Homepage, Upcoming Movies, Popular Actors and Favourites pages. Having like this avoids repetition of code. 
+e.g.
 
-Refactored code in headerMovieList to remove back and forward arrow icons since @MUI pagination being used to provide navigation back and forth between pages. Added Grid to header to allow for better formatting and positioning of content. 
+![][image5]
 
----------------------------------------------------------------------
-Login
----------------------------------------------------------------------
+## Authentication.
 
-Added authentication with Supabase. Created new AuthContext and wrapped all elements in it in index.js. AuthContext reaches carries out email login verification against users table on the account. Added keys to .env file and created supabase/client.js to create client instance that can be used across the application.
+[ List all the routes in your app and highlight those that are protected/private (require authentication).]
 
-Created custom login page and added login/logout menu item to siteheader (toggles between two depending on whether logged in or not). 
-Pages:
-    login.jsx
+e.g.
 
-Components:
-    authRoute
++ /movies - List of 20  movies from the Discover endpoint,
++ /movies/{movie_id} - Detailed information on a specific movie.
++ /reviews/{review_id} (Protected) - The full text of a movie review.
++ /movie/{movie_id}/similar - A list of similar movies. 
++ /person/{person_id} (Protected) - A specific actor's bio.
++ etc
++ etc
 
-Contexts:
-    authProvider
+#### Protected features (if relevant)
 
-Added following pages to authenticated routes:
-    <Route element={<AuthRoute />}>
-        <Route path="/homeauth" element={<Home />} />
-        <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-        <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
-        <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-        <Route path="/reviews/:id" element={<MovieReviewPage />} />
-    </Route>
+[ Briefly state other areas where you used authentication in the app, for example, to protect access to functionality, e.g. only authenticated users can 'favourite' a movie.]
+
+#### Supabase (if relevant)
+
+[ Include a screenshot(s) from your Supabase account that verifies its use for this app. ]
+
+## Deployment (if relevant).
+
+[ Specify the URL of your deployed app and include a screenshot(s) from your deployment platform (e.g. Vercal) account that verifies its use for this app. Have a preregistered user for your app and specify their credentials.
+
+Username: test1 ; Password: pass1
+]
+
+## Persistence (if relevant).
+
+[ If you are persisting data to the Supabase backend, e.g. favourite movies, fantasy movie, include screenshots with appropriate captions to verify this aspect. ]
+
+## Additional Information.
+
+[ Briefly explain any other aspects of your app's design or implementation that is non-standard and worthy of mention.]
+
+[image1]: ./images/image1.png
+[image2]: ./images/image2.png
+[image3]: ./images/image3.png
+[image4]: ./images/image4.png
+[image5]: ./images/image5.png

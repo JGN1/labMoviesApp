@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Avatar from "@mui/material/Avatar";
+import MovieFilterOutlinedIcon from '@mui/icons-material/MovieFilterOutlined';
 
 
 const styles = {
@@ -28,22 +29,16 @@ const MovieHeader = (props) => {
   const favourite = JSON.parse(localStorage.getItem("favourites"));
 
   return (
-    <Paper component="div" sx={styles.root}>      
-      <IconButton aria-label="go back">
-        <ArrowBackIcon color="primary" fontSize="large" />
-      </IconButton>
+    <Paper component="div" sx={styles.root}>     
       {favourite ? <Avatar sx={styles.avatar}><FavoriteIcon /></Avatar> : null}
       <Typography variant="h4" component="h3">
-        {movie.title}{"   "}
-        <a href={movie.homepage}>
-          <HomeIcon color="primary" fontSize="='large" />
-        </a>
+        {movie.title}{"   "}        
         <br />
         <span>{`${movie.tagline}`} </span>
+        <a href={movie.homepage} target="_blank">
+          <MovieFilterOutlinedIcon color="primary" fontSize="='large" />
+        </a>
       </Typography>
-      <IconButton aria-label="go forward">
-        <ArrowForwardIcon color="primary" fontSize="large" />
-      </IconButton>
     </Paper>
   );
 };
