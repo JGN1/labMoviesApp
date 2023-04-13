@@ -59,11 +59,11 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 
 > New Popular Actors page. Multipage pagination, new Actor card components. Picture has CardActionArea, so user can either click picture or 'More Info' button to get to Actor Details Screen.
 
-![][popularActors.png]
+![][popularActors]
 
 > New Actors Details page. Displays Actor Biography, Chip labels with key pieces of information such as place of birth, photos of actor and filmography section.
 
-![][actorDetailsPage.png]
+![][actorDetailsPage]
 
 ---------------------------------------------------------------------
 
