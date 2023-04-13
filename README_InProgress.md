@@ -6,23 +6,23 @@ Actors section
 ---------------------------------------------------------------------
 Additional actor specific API calls in tmdb-api.js
 Components:
-    actorCard
-    ActorDetails
-    actorList
-    headerActor
-    templateActorPage
-    templateActorsListPage
-    actorFilmography
-    actorFilmCard
++   actorCard
++   ActorDetails
++   actorList
++   headerActor
++   templateActorPage
++   templateActorsListPage
++   actorFilmography
++   actorFilmCard
 
 Actors Pages:
-    actorDetailsPage.jsx
-    popularActors.jsx
++   actorDetailsPage.jsx
++   popularActors.jsx
 
 Actors Routing:
-    Added additional routes in src/index.jsx for actors pages
-        <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
-        <Route path="/actors/popular" element={<PopularActorsPage/>} />  
++   Added additional routes in src/index.jsx for actors pages
+++      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
+++      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
 
 Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for.
 
@@ -46,17 +46,17 @@ Enhanced Filter
 ---------------------------------------------------------------------
 Added Enhaced filter on Home screen to allow fileter by year. For this made changes on 
 Pages:
-    homepage.jsx
++   homepage.jsx
 
 Components:
-    movieFilterUI
-    filterMoviesCard
++   movieFilterUI
++   filterMoviesCard
 
 Incorporated @mui/x-date-pickers from MUI and set to year only date picker.
 Had to install following to make work...
 
-npm install @mui/material @emotion/react @emotion/styled
-npm install dayjs --save
++ npm install @mui/material @emotion/react @emotion/styled
++ npm install dayjs --save
 
 Had to add additional function called handleDateChange in the filterMoviesCard component. Datepicker sends value of datepicker instead of event object. This led to errors when the original handleInputUser function called e.preverntDefaults(); 
 

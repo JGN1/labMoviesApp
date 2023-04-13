@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -8,6 +8,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Avatar from "@mui/material/Avatar";
 import MovieFilterOutlinedIcon from '@mui/icons-material/MovieFilterOutlined';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { MoviesContext } from "../../contexts/moviesContext";
 
 
 const styles = {
@@ -25,19 +27,36 @@ const styles = {
 
 const MovieHeader = (props) => {
   const movie = props.movie;
-  // Get movies from local storage.
-  const favourite = JSON.parse(localStorage.getItem("favourites"));
+  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { mustWatch, addToMustWatch } = useContext(MoviesContext);
 
+  if (favourites.find((id) => id === movie.id)) {
+    movie.favourite = true;
+  } else {
+    movie.favourite = false
+  }
+
+  if (mustWatch.find((id) => id === movie.id)) {
+    movie.mustWatch = true;
+  } else {
+    movie.mustWatch = false
+  }
+  
   return (
-    <Paper component="div" sx={styles.root}>     
-      {favourite ? <Avatar sx={styles.avatar}><FavoriteIcon /></Avatar> : null}
+    <Paper component="div" sx={styles.root}>
+    <Typography>
+      {movie.favourite ? <Avatar sx={styles.avatar}><FavoriteIcon /></Avatar> : null}
+    </Typography>
       <Typography variant="h4" component="h3">
-        {movie.title}{"   "}        
+        {movie.title}{"   "}
         <br />
         <span>{`${movie.tagline}`} </span>
         <a href={movie.homepage} target="_blank">
           <MovieFilterOutlinedIcon color="primary" fontSize="='large" />
         </a>
+      </Typography>
+      <Typography>
+        {movie.mustWatch ? <Avatar sx={styles.avatar}><PlaylistAddCheckIcon /></Avatar> : null}
       </Typography>
     </Paper>
   );

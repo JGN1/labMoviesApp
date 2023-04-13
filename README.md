@@ -6,13 +6,29 @@ __Name:__ Joe Nunan
 
 [A bullet-point list of the features developed for the React SPA app (new/modified ones only for the Movies app),]
 
-+ Feature X.
-+ Feature Y. 
++ Popular Actors Page
++ Actor Details Page
++ Filmography component embedded in Actors Details page including complex interaction cards
++ Filmography includes combined credits for both Movies and TV
++ Enhanced Filter - enhanced existing filter to include year picker 
++ Moved location of Filter drawer as blocking filtered results
++ Filter available on Home page, Upcoming Movies page, Favourites page and Watch List page
++ Added Pagination for Homepage, Upcoming Movies, Favourites page, Must Watch Page and Popular Actors page
++ Added Supabase authentication. Created login page for email and username. Autheticate against Supabase Users table.
++ Added logout facility
++ Added Authenticate routes for several parts of site
++ Added must Watch List page with similar features to favourites page
++ Altered most of headers on sites to remove forward and back arrow icons and replace with @MUI Pagination
++ Added link to hompage of movies in detailed view
 + etc.
 
 ## Feature Design.
 
 [ For each feature listed in the overview, show a screenshot(s) of its UI layout (use appropriate magnification for accessibility). Include captions with the images.]
+
+#### Popular Actors and Details Sections
+
+
 
 e.g. 
 
