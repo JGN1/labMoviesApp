@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,6 +12,9 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+//New
+import { useAuth } from '../../contexts/authProvider';
+import { supabase } from "../../supabase/client";
 
 const styles = {
   title: {
@@ -31,6 +35,26 @@ const SiteHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
+  //New vvvvvvvvvvvvvvvvvvvvvvv
+  const context = useContext(useAuth);
+
+  const { auth, signOut } = useAuth();
+  console.log ("here is Auth hdhd - " + auth);
+  console.log(auth);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      //signOut();
+      const { error } = await signOut();
+      // context.signOut()
+      console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+    //^^^^^^^^^^^^^^^^^
+
   const menuOptions = [
     { label: "Home", path: "/" },    
     { label: "Upcoming", path: "/movies/upcoming" },
@@ -38,7 +62,7 @@ const SiteHeader = () => {
     { label: "Popular Actors", path: "/actors/popular" },
     { label: "Maybe TV???", path: "/" },
     { label: "Auth Actors", path: "/actors/popularAuth" },
-    { label: "Logout", path: "/actors/popularAuth" },
+    { label: "HomeAuth", path: "/homeauth" },    
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -85,7 +109,7 @@ const SiteHeader = () => {
                 }}
                 open={open}
                 onClose={() => setAnchorEl(null)}
-              >
+              >                
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
@@ -94,6 +118,20 @@ const SiteHeader = () => {
                     {opt.label}
                   </MenuItem>
                 ))}
+                {!auth && (
+                    <MenuItem
+                    key={"Login"}
+                    onClick={() => handleMenuSelect("/login")}                     
+                  >
+                    Login1
+                  </MenuItem>
+                )}
+                {auth && (
+                // <MenuItem onClick={() => handleLogout()}>
+                <MenuItem onClick={handleLogout}>                
+                  Logout
+                </MenuItem>
+                )}
               </Menu>
             </>
           ) : (
@@ -107,6 +145,18 @@ const SiteHeader = () => {
                   {opt.label}
                 </Button>
               ))}
+              {!auth && (
+              <Button onClick={() => handleMenuSelect("/login")} style={{color: 'white'}}>
+              {/* <Button onClick={() => handleLogout()}> */}
+                  Login
+                </Button>
+              )}
+              {/* {auth && ( */}
+              <Button onClick={handleLogout} style={{color: 'white'}}>
+              {/* <Button onClick={() => handleLogout()}> */}
+                  Logout
+                </Button>
+              {/* )} */}
             </>
           )}
         </Toolbar>
