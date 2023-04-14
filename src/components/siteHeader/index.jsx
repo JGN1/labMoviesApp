@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -12,17 +11,13 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-//New
 import { useAuth } from '../../contexts/authProvider';
+import ProfileIcon from '../profileIcon';
 
 const styles = {
   title: {
     flexGrow: 1,
   },
-  appbar: {
-    // background: 'none',
-  },
-  // offset: theme.mixins.toolbar,
 };
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
@@ -33,36 +28,17 @@ const SiteHeader = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-
-  //New vvvvvvvvvvvvvvvvvvvvvvv
-  // const context = useContext(useAuth);
-
+  
   const { auth, signOut } = useAuth();
-  console.log ("here is Auth hdhd - " + auth);
-  console.log(auth);
+  const { user } = useAuth();
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    try {
-      //signOut();
-      const { error } = await signOut();
-      // context.signOut()
-      console.log(error);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-    //^^^^^^^^^^^^^^^^^
 
   const menuOptions = [
-    { label: "Home", path: "/" },    
+    { label: "Home", path: "/" },
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Popular Actors", path: "/actors/popular" },
     { label: "Favorites", path: "/movies/favourites" },
-    { label: "Must Watch", path: "/movies/watchlist" },    
-    // { label: "Maybe TV???", path: "/" },
-    // { label: "Auth Actors", path: "/actors/popularAuth" },
-    // { label: "HomeAuth", path: "/homeauth" },    
+    { label: "Must Watch", path: "/movies/watchlist" },
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -109,7 +85,7 @@ const SiteHeader = () => {
                 }}
                 open={open}
                 onClose={() => setAnchorEl(null)}
-              >                
+              >
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
@@ -119,18 +95,15 @@ const SiteHeader = () => {
                   </MenuItem>
                 ))}
                 {!auth && (
-                    <MenuItem
+                  <MenuItem
                     key={"Login"}
-                    onClick={() => handleMenuSelect("/login")}                     
+                    onClick={() => handleMenuSelect("/login")}
                   >
                     Login
                   </MenuItem>
                 )}
                 {auth && (
-                // <MenuItem onClick={() => handleLogout()}>
-                <MenuItem onClick={handleLogout}>                
-                  Logout
-                </MenuItem>
+                  <ProfileIcon user={user.email} />
                 )}
               </Menu>
             </>
@@ -146,24 +119,18 @@ const SiteHeader = () => {
                 </Button>
               ))}
               {!auth && (
-              <Button onClick={() => handleMenuSelect("/login")} style={{color: 'white'}}>
-              {/* <Button onClick={() => handleLogout()}> */}
-                  Login
+                <Button onClick={() => handleMenuSelect("/login")} style={{ color: 'white' }}>
+                  Sign In
                 </Button>
               )}
               {auth && (
-              <Button onClick={handleLogout} style={{color: 'white'}}>
-              {/* <Button onClick={() => handleLogout()}> */}
-                  Logout
-                </Button>
+                <ProfileIcon user={user.email} />
               )}
             </>
           )}
         </Toolbar>
       </AppBar>
       <Offset />
-
-      {/* <div className={classes.offset} /> */}
     </>
   );
 };

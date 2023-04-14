@@ -23,11 +23,11 @@ __Name:__ Joe Nunan
 
 + Refactored all movie cards to have action area on image which deep links to movie details. Also refactored formatting of 'More Info..' button.
 + etc.
-
+---------------------------------------------------------------------
 ## Feature Design.
-
+---------------------------------------------------------------------
 [ For each feature listed in the overview, show a screenshot(s) of its UI layout (use appropriate magnification for accessibility). Include captions with the images.]
-
+---------------------------------------------------------------------
 #### Popular Actors and Details Sections
 ---------------------------------------------------------------------
 Additional actor specific API calls in tmdb-api.js
@@ -46,9 +46,15 @@ Actors Pages:
 +   popularActors.jsx
 
 Actors Routing:
-+   Added additional routes in src/index.jsx for actors pages
-+      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
-+      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
++   Added additional routes in src/index.jsx for actors pages (Actors Details authenticated route)
+```JavaScript
+    <Route element={<AuthRoute />}>
+        ...
+      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} /> 
+        ...
+    </Route>         
+    <Route path="/actors/popular" element={<PopularActorsPage/>} />  
+```
 
 Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for. Created actorFilmCard component for displaying actors. This includes CardActionArea which links to Actor Details screen. Navigation to Actor Details screen can also be carried out through More Info button. Actors Details screen is protected route so user needs to be logged in to access.
 
@@ -76,7 +82,6 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 ![](images/image104.png)
 
 ---------------------------------------------------------------------
-
 #### Enhanced Filter
 ---------------------------------------------------------------------
 Added Enhaced filter on Home screen to allow filter by year. For this made changes on 
@@ -103,7 +108,7 @@ I also moved the Drawer component to right hand side of screen instead of left b
 
 ![](images/image105.png)
 
-> Same screen with 2019 selected for the year showing filtered results in background.
+> Same screen with 2021 selected for the year showing filtered results in background.
 
 ![](images/image106.png)
 
@@ -126,7 +131,6 @@ Refactored code in headerMovieList to remove back and forward arrow icons since 
 ![](images/image107.png)
 
 ---------------------------------------------------------------------
-
 #### Must Watch page
 ---------------------------------------------------------------------
 
@@ -135,18 +139,58 @@ Setup a Must Watch page where users can see movies on their must watch list. Mov
 Pages:
 + watchListPage.jsx
 
+Components:
++ cardIcons/removeFromMustWatch
+
 Contexts:
 + contexts/moviesContext.jsx 
 
+Added following pages to authenticated routes (Must Watch on authenticated route):
+```JavaScript
+    <Route element={<AuthRoute />}>
+        ...
+        <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
+        ...
+    </Route>
+```
+
 All other components were reused from other sections of the application. In the movieContext.jsx added function to remove movie from must watch list. 
-Access to Must Watch page is through protected route so user must be authenticated to access it. The page is similar to favourites page and reuses elements of it. Hence Filter functionality, pagination, ability to remove movie from watchlist, ability to create review on movie and deep link to Movies details page are all available.
 
+Access to Must Watch page is through protected route so user must be authenticated to access it. The page is based on favourites page and reuses elements of it. Hence Filter functionality, pagination, ability to remove movie from watchlist, ability to create review on movie and deep link to Movies details page are all available.
 
+> Must Watch page where autheticated users can view movies they have added to their Must Watch list on Upcoming Movies page
 
-
+![](images/image108.png)
 
 ---------------------------------------------------------------------
-ester
+## Authentication
+---------------------------------------------------------------------
+The following shows a list of all routes in the application. 
+
+```JavaScript
+    <Routes>
+              {/* Items within the AuthRoute route element require authentication to access  */}
+              <Route element={<AuthRoute />}>
+                <Route path="/homeauth" element={<Home />} />
+                <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+                <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
+                <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+                <Route path="/reviews/:id" element={<MovieReviewPage />} />
+              </Route>
+              {/* Following routes do not require authentication. */}
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/actors/popular" element={<PopularActorsPage />} />
+              <Route path="/movies/upcoming" element={<UpcomingMovies />} />
+              <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+```
+
+
+====================================================================================================
 e.g. 
 
 #### The Upcoming Movies feature.

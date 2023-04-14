@@ -20,17 +20,10 @@ const styles = {
 
 const Header = (props) => {
   const title = props.title;
-  const page = props.page
-  console.log("Title - :" + props.title);
-  console.log("Page - :" + props.title[1]);
-  console.log("Props - :" + JSON.stringify(props)); 
+  const page = props.page 
 
   const handleChange = (event, value) => {
-    // setPage(value);
-    // page = value;
     props.changePage(value);
-    // console.log("Page - :" + page);
-    // console.log("Page Value - :" + value);
   };
 
   return (
@@ -44,7 +37,6 @@ const Header = (props) => {
       <Grid item xs={3}>
         <Stack spacing={2}>
           <Pagination count={10} shape="rounded" showFirstButton showLastButton color="primary" page={page} onChange={handleChange} />
-          {/* <Pagination count={10} shape="rounded" showFirstButton showLastButton color="primary" page={page} onChange={handleChange} /> */}
         </Stack>
       </Grid>
     </Grid>  

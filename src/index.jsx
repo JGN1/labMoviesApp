@@ -34,7 +34,7 @@ import AuthRoute from './components/authRoute'
 // import AuthRoute from "./components/AuthRoute";
 import Home from "./pages/home";
 import WatchlistMoviesPage from "./pages/watchListPage";
-
+import AuthUserDetails from "./pages/authUserDetails";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,9 +71,9 @@ const App = () => {
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
-              {/* <Route path="/pagination" element={<Pagination />} /> */}
-              {/* <Route path="/pagination" element={<Pagination/>} />    */}
-              {/* <Route path="/actors/profile/:id" element={<ActorDetailsPage />} /> */}
+
+              
+              <Route path="/authuser" element={<AuthUserDetails />} />
             </Routes>
           </MoviesContextProvider>
         </AuthProvider>
@@ -82,6 +82,12 @@ const App = () => {
     </QueryClientProvider>
   );
 };
+
+
+
+              {/* <Route path="/pagination" element={<Pagination />} /> */}
+              {/* <Route path="/pagination" element={<Pagination/>} />    */}
+              {/* <Route path="/actors/profile/:id" element={<ActorDetailsPage />} /> */}
 
 const rootElement = createRoot(document.getElementById("root"));
 rootElement.render(<App />);

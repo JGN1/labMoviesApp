@@ -68,7 +68,10 @@ I also moved the Drawer component to right hand side of screen instead of left b
 Pagination
 ---------------------------------------------------------------------
 
-Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+Added pagination to Discovery, Upcoming Movies, Favourites, Must Watch and Popular Actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+
+Components:
++   headerMovieList
 
 Changing over to @tanstack/react-query broke favourites page so had to refactor section of code to make work again (around useQueries and mapping section). 
 
