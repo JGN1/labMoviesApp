@@ -56,7 +56,6 @@ const App = () => {
             <Routes>
               {/* Items within the AuthRoute route element require authentication to access  */}
               <Route element={<AuthRoute />}>
-                <Route path="/homeauth" element={<Home />} />
                 <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
                 <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
                 <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
@@ -71,9 +70,6 @@ const App = () => {
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
-
-              
-              <Route path="/authuser" element={<AuthUserDetails />} />
             </Routes>
           </MoviesContextProvider>
         </AuthProvider>

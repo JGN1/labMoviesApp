@@ -28,7 +28,7 @@ __Name:__ Joe Nunan
 ---------------------------------------------------------------------
 [ For each feature listed in the overview, show a screenshot(s) of its UI layout (use appropriate magnification for accessibility). Include captions with the images.]
 ---------------------------------------------------------------------
-#### Popular Actors and Details Sections
+### Popular Actors and Details Sections
 ---------------------------------------------------------------------
 Additional actor specific API calls in tmdb-api.js
 Components:
@@ -82,7 +82,7 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 ![](images/image104.png)
 
 ---------------------------------------------------------------------
-#### Enhanced Filter
+### Enhanced Filter
 ---------------------------------------------------------------------
 Added Enhaced filter on Home screen to allow filter by year. For this made changes on 
 Pages:
@@ -113,7 +113,7 @@ I also moved the Drawer component to right hand side of screen instead of left b
 ![](images/image106.png)
 
 ---------------------------------------------------------------------
-#### Pagination
+### Pagination
 ---------------------------------------------------------------------
 
 Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. The refactoring included pages that did not have pagination but used react-query functions. 
@@ -131,7 +131,7 @@ Refactored code in headerMovieList to remove back and forward arrow icons since 
 ![](images/image107.png)
 
 ---------------------------------------------------------------------
-#### Must Watch page
+### Must Watch page
 ---------------------------------------------------------------------
 
 Setup a Must Watch page where users can see movies on their must watch list. Movies can be added to must watch list in upcoming movies page. Setup following elements for this functionality.
@@ -165,13 +165,16 @@ Access to Must Watch page is through protected route so user must be authenticat
 ---------------------------------------------------------------------
 ## Authentication
 ---------------------------------------------------------------------
+
+### Protected Routes and Features
+---------------------------------------------------------------------
+
 The following shows a list of all routes in the application. 
 
 ```JavaScript
-    <Routes>
+            <Routes>
               {/* Items within the AuthRoute route element require authentication to access  */}
               <Route element={<AuthRoute />}>
-                <Route path="/homeauth" element={<Home />} />
                 <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
                 <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
                 <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
@@ -188,6 +191,116 @@ The following shows a list of all routes in the application.
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
 ```
+
+The protected features within the application that require a user to be logged in are:
++ Favourites
++ Must Watch
++ Opening full reviews for movie from review drawer
++ Accessing Actor Details page from Popular Actors page
++ Adding user review
+
+---------------------------------------------------------------------
+### Supabase for Authentication
+---------------------------------------------------------------------
+Added authentication with Supabase. Created new AuthContext context containing 'AuthProvider' context provider. Wrapped all elements in index.js with this, including SIteHeader where authenication code is contained. AuthContext carries out email login verification against users table on the account. Added keys to .env file and created supabase/client.js to create client instance that can be used across the application. 
+
+```JavaScript
+<QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AuthProvider>
+          <SiteHeader />      {/* New Header  */}
+          <MoviesContextProvider>
+            <Routes>
+             ...
+            </Routes>
+          </MoviesContextProvider>
+        </AuthProvider>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+```
+
+
+Created custom login page using Card, FormControl, Grid and Link elements. Also had links in place for forgotten password and Registration but ran out of time to implement these features. For email text field added email icon and for password field added option to display field contents. 
+
+> Login page for application features which require authenitcation to access.
+
+![](images/image109.png)
+
+Pages:
++   login.jsx
+
+Components:
++   authRoute
++   profileIcon
+
+Contexts:
++   authProvider
+
+Supabase:
++   client.js
+
+Added following pages to authenticated routes:
+```JavaScript
+    <Route element={<AuthRoute />}>
+        <Route path="/homeauth" element={<Home />} />
+        <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+        <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
+        <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+        <Route path="/reviews/:id" element={<MovieReviewPage />} />
+    </Route>
+```
+
+Added Sign In and Profile Icon menu items to siteheader. The menu toggles between displaying both dependent on whether user is logged in or not. When Profile Icon displayed, hovertip displays email address of logged in user and clicking on profile icon brings up context menu with option for logout.
+
+> Sign In menu item displayed to user when not logged in.
+
+![](images/image110.png)
+
+> For users who are logged in, menu item changes to Profile Icon, which displays context menu once clicked on. Users use this to log out.
+
+![](images/image111.png)
+
+To handle the authentication of users, I set up a Supbase account and MyMoviesApp project on it. All test users are managed through teh Auth functionality in Supabase.
+
+> Following shows screenshot of Users table in Supabase project setup for authentication of the application.
+
+![](images/image112.png)
+
+Added the VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY keysin the .env file for localhost deployment and added to Environmental Variables for Vercel Deployment.
+
+> Following screenshot login activity to my application over a 5.5 hour period. The graph at the top shows logs over time and on the right hand side you can see specifics of login user using nunanjoe@gmail.com email address.
+
+![](images/image113.png)
+
+---------------------------------------------------------------------
+### Deployment Using Vercel
+---------------------------------------------------------------------
+Deployment of the application is handled using Vercel. To enable management of build and deploy of my app, I signed up for an account with Vercel and linked it to my movies app repository on GitHub. 
+
+While I have been developing the application I have continually being pushing my code to Master branch instead of Main (error on my part as Main is now default bracnh on Git). This meant I needed to alter setting for my deployment ot point to Master instead of Main branch. 
+
+The configuration settings which were required were.
++ General > Build & Deployment Settings > Framework Preset - Selected Vite
++ Git > Connected Git Repoisitory - Selected my labMoviesApp repository
++ Git > Production Branch - changed from Main to Master 
++ Environmental Variables - added VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY and VITE_TMDB_KEY
++ All other settings were left with defaults
+
+Each time I make a commit of my application and push to Git, Vercel automatically builds and Deploys the application. 
+
+Access Details to my Vercel deployment of my application:
++ App URL:    https://lab-movies-app-psi.vercel.app/
++ Username:   msc.validation@joenunan.myapp
++ Password:   Ch3ck0utMyApp@
+
+> Screenshot of deployment of my application using Vercel
+
+![](images/image114.png)
+
+> As can be seen below, application gets built and redeployed each time the code is committed and pushed to GitHub
+
+![](images/image115.png)
 
 
 ====================================================================================================

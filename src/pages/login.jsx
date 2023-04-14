@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
-// import { Alert, Button, Card, Form } from 'react-bootstrap';
-import { Alert, Box, Button, Card, CardContent, CardHeader, Container, FormControl, FormGroup, FormLabel, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, CardHeader, Container, FormControl, Typography } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import EmailIcon from '@mui/icons-material/Email';
 import Grid from "@mui/material/Grid";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authProvider";
@@ -108,8 +107,8 @@ const Login = (props) => {
                   type='text'
                   inputRef={emailRef}
                   endAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
+                    <InputAdornment position="end">
+                      <EmailIcon />
                     </InputAdornment>
                   }
                   label="Email"
@@ -167,78 +166,7 @@ const Login = (props) => {
                 </Grid>
               </Grid>
             </Box>
-
-
-
-
-            {/* <FormGroup>
-                  <FormLabel>
-                    Email
-                  </FormLabel>
-                  <FormControl
-                    id='email'
-                    label='Email Address'
-                    name='email'
-                    autoComplete='email'
-                    autoFocus
-                    ref={emailRef}
-                    required
-                  /> */}
-
-            {/* <TextField
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
-                autoFocus
-                ref={emailRef} 
-                required 
-              /> */}
-            {/* </FormGroup> */}
-
-            {/* <Box>
-              <TextField
-                id='password'
-                label='Password'
-                name='password'
-                autoComplete='password'
-                ref={passwordRef}
-                required
-                type='password'
-              />
-            </Box> */}
           </CardContent>
-
-
-
-          {/* <h2 className="text-center mb-4">Login</h2>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            {errorMsg && (
-              <Alert
-                variant="danger"
-                onClose={() => setErrorMsg("")}
-                dismissible>
-                {errorMsg}
-              </Alert>
-            )}
-            <div className="text-center mt-2">
-              <Button disabled={loading} type="submit" className="w-50">
-                Login
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-        <div className="w-100 text-center mt-2">
-          New User? <Link to={"/register"}>Register</Link>
-        </div> */}
         </Card>
       </Container>
     </>
