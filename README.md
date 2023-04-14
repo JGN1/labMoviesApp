@@ -158,7 +158,7 @@ All other components were reused from other sections of the application. In the 
 
 Access to Must Watch page is through protected route so user must be authenticated to access it. The page is based on favourites page and reuses elements of it. Hence Filter functionality, pagination, ability to remove movie from watchlist, ability to create review on movie and deep link to Movies details page are all available.
 
-> Must Watch page where autheticated users can view movies they have added to their Must Watch list on Upcoming Movies page
+> Must Watch page where authenticated users can view movies they have added to their Must Watch list on Upcoming Movies page
 
 ![](images/image108.png)
 
@@ -227,6 +227,8 @@ Created custom login page using Card, FormControl, Grid and Link elements. Also 
 
 ![](images/image109.png)
 
+The following elements of the application were created/updated to facilitate authentication using Supabase.
+
 Pages:
 +   login.jsx
 
@@ -243,8 +245,8 @@ Supabase:
 Added following pages to authenticated routes:
 ```JavaScript
     <Route element={<AuthRoute />}>
-        <Route path="/homeauth" element={<Home />} />
         <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+        <Route path="/movies/watchlist" element={<WatchlistMoviesPage />} />
         <Route path="/actors/profile/:id" element={<ActorDetailsPage />} />
         <Route path="/reviews/form" element={<AddMovieReviewPage />} />
         <Route path="/reviews/:id" element={<MovieReviewPage />} />
@@ -261,26 +263,26 @@ Added Sign In and Profile Icon menu items to siteheader. The menu toggles betwee
 
 ![](images/image111.png)
 
-To handle the authentication of users, I set up a Supbase account and MyMoviesApp project on it. All test users are managed through teh Auth functionality in Supabase.
+To handle the authentication of users, I set up a Supbase account and MyMoviesApp project on it. All test users are managed through the Auth functionality in Supabase.
 
 > Following shows screenshot of Users table in Supabase project setup for authentication of the application.
 
 ![](images/image112.png)
 
-Added the VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY keysin the .env file for localhost deployment and added to Environmental Variables for Vercel Deployment.
+Added the VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY keys in the .env file for localhost deployment and added to Environmental Variables for Vercel Deployment.
 
-> Following screenshot login activity to my application over a 5.5 hour period. The graph at the top shows logs over time and on the right hand side you can see specifics of login user using nunanjoe@gmail.com email address.
+> Following screenshot login activity to my application over a 5.5 hour period. The graph at the top shows logs over time and on the right hand side you can see specifics of user logging in including email address (used as username).
 
 ![](images/image113.png)
 
 ---------------------------------------------------------------------
 ### Deployment Using Vercel
 ---------------------------------------------------------------------
-Deployment of the application is handled using Vercel. To enable management of build and deploy of my app, I signed up for an account with Vercel and linked it to my movies app repository on GitHub. 
+Deployment of the application is handled using Vercel. To enable management of build and deploy of my app by Vercel, I signed up for a hobby account and linked it to my movies app repository on GitHub. 
 
-While I have been developing the application I have continually being pushing my code to Master branch instead of Main (error on my part as Main is now default bracnh on Git). This meant I needed to alter setting for my deployment ot point to Master instead of Main branch. 
+While I have been developing the application I have continually being pushing my code to Master branch instead of Main (error on my part as Main is now default branch on Git). This meant I needed to alter branch setting for my deployment to point to Master instead of Main branch. 
 
-The configuration settings which were required were.
+The configuration settings which were required are as follows:
 + General > Build & Deployment Settings > Framework Preset - Selected Vite
 + Git > Connected Git Repoisitory - Selected my labMoviesApp repository
 + Git > Production Branch - changed from Main to Master 
