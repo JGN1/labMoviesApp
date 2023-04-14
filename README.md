@@ -14,12 +14,14 @@ __Name:__ Joe Nunan
 + Moved location of Filter drawer as blocking filtered results
 + Filter available on Home page, Upcoming Movies page, Favourites page and Watch List page
 + Added Pagination for Homepage, Upcoming Movies, Favourites page, Must Watch Page and Popular Actors page
++ Altered most of headers on sites to remove forward and back arrow icons and replace with @MUI Pagination
++ Added must Watch List page with similar features to favourites page
 + Added Supabase authentication. Created login page for email and username. Autheticate against Supabase Users table.
 + Added logout facility
 + Added Authenticate routes for several parts of site
-+ Added must Watch List page with similar features to favourites page
-+ Altered most of headers on sites to remove forward and back arrow icons and replace with @MUI Pagination
-+ Added link to hompage of movies in detailed view
++ Added Vercel Delpoyment of application on for each github push
+
++ Refactored all movie cards to have action area on image which deep links to movie details. Also refactored formatting of 'More Info..' button.
 + etc.
 
 ## Feature Design.
@@ -48,14 +50,14 @@ Actors Routing:
 +      <Route path="/actors/profile/:id" element={<ActorDetailsPage/>} />          
 +      <Route path="/actors/popular" element={<PopularActorsPage/>} />  
 
-Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for. Created actoreFilmCard component for displaying actors. This includes CardActionArea which links to Actor Details screen. Navigation to Actor Details screen can also be carried out through More Info button. Actors Details screen is protected route so user needs to be logged in to access.
+Actor Details page includes biography of Actor, photos of actor, and filmography section showing films and movies they are known for. Created actorFilmCard component for displaying actors. This includes CardActionArea which links to Actor Details screen. Navigation to Actor Details screen can also be carried out through More Info button. Actors Details screen is protected route so user needs to be logged in to access.
 
 The filmography section includes film cards that have complex interaction (found this ability in MUI documentation). 
 +   Clicking on chevron at bottom expands card to show overview. 
 +   Click on image links to movie details page to see film details. 
 +   Used <CardActionArea> combined with <Link> to allow user click on image of film on moviecard to go to movies details page.
 
-Filmography includes combined credits i.e. films and tv shows actor has starred in. The actorFilmography and actorFilmCard components were added to facilitate this.
+Filmography includes combined credits i.e. films and tv shows actor has starred in. Had to add some additional logic for displaying titles as different field names used for movies and TV series in TMDB API. The actorFilmography and actorFilmCard components were added to facilitate displaying the combined credit results.
 
 > New Popular Actors page. Multipage pagination, new Actor card components. Picture has CardActionArea, so user can either click picture or 'More Info' button to get to Actor Details Screen.
 
@@ -65,7 +67,7 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 
 ![](images/image102.png)
 
-> FilmCard in Filography section includes complex interaction. Picture is link to film details. Film can be added to favourites using icon. Chevron on right hand side can be clicked to give filem details
+> FilmCard in Filography section includes complex interaction. Picture is link to film details. Film can be added to favourites using icon. Chevron on right hand side can be clicked to display film details at bottom of card.
 
 ![](images/image103.png)
 
@@ -77,7 +79,7 @@ Filmography includes combined credits i.e. films and tv shows actor has starred 
 
 #### Enhanced Filter
 ---------------------------------------------------------------------
-Added Enhaced filter on Home screen to allow fileter by year. For this made changes on 
+Added Enhaced filter on Home screen to allow filter by year. For this made changes on 
 Pages:
 +   homepage.jsx
 
@@ -91,17 +93,17 @@ Had to install following to make work...
 + npm install @mui/material @emotion/react @emotion/styled
 + npm install dayjs --save
 
-Had to add additional function called handleDateChange in the filterMoviesCard component. Datepicker sends value of datepicker instead of event object. This led to errors when the original handleInputUser function called e.preverntDefaults(); 
+Had to add additional function called handleDateChange in the filterMoviesCard component. Datepicker sends value of datepicker instead of event object. This led to errors when the original handleInputUser function called e.preventDefaults(); 
 
 Additionally I used substring function to extract year from universal timestamp value the date picker returns.
 
 I also moved the Drawer component to right hand side of screen instead of left because when movies filtered down to one  or two, they were hidden behind the drawer.
 
-> Following shows expanded film description and favourite icon selected.
+> Following shows the new filter by year option unfilled, including 'Clear' button at bottom to reset date
 
 ![](images/image105.png)
 
-> Same screen with 2019 selected for the year.
+> Same screen with 2019 selected for the year showing filtered results in background.
 
 ![](images/image106.png)
 
@@ -109,7 +111,9 @@ I also moved the Drawer component to right hand side of screen instead of left b
 #### Pagination
 ---------------------------------------------------------------------
 
-Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. Pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
+Added pagination to home pages, upcoming movies and popular actors pages. Used @tanstack/react-query and refactored all queries using standard react-query so queryClient and queryClientProvider could be shared across all pages from root level. The refactoring included pages that did not have pagination but used react-query functions. 
+
+The pagination function implemented with @tanstack/react-query includes prefetch functionaility to allow data to be continually displayed on screen while next page data is being retrieved.
 
 Changing over to @tanstack/react-query broke favourites page so had to refactor section of code to make work again (around useQueries and mapping section). 
 
@@ -119,7 +123,26 @@ Refactored code in headerMovieList to remove back and forward arrow icons since 
 
 > Pagination added for multiple pages by adding to site header to eliminate duplication of code.
 
-![](image107)
+![](images/image107.png)
+
+---------------------------------------------------------------------
+
+#### Must Watch page
+---------------------------------------------------------------------
+
+Setup a Must Watch page where users can see movies on their must watch list. Movies can be added to must watch list in upcoming movies page. Setup following elements for this functionality.
+
+Pages:
++ watchListPage.jsx
+
+Contexts:
++ contexts/moviesContext.jsx 
+
+All other components were reused from other sections of the application. In the movieContext.jsx added function to remove movie from must watch list. 
+Access to Must Watch page is through protected route so user must be authenticated to access it. The page is similar to favourites page and reuses elements of it. Hence Filter functionality, pagination, ability to remove movie from watchlist, ability to create review on movie and deep link to Movies details page are all available.
+
+
+
 
 
 ---------------------------------------------------------------------

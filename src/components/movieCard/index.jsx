@@ -1,4 +1,4 @@
-import React, { useContext  } from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import CardActionArea from '@mui/material/CardActionArea';
 
 const styles = {
   card: { maxWidth: 345 },
@@ -53,10 +54,10 @@ export default function MovieCard({ movie, action }) {
               <FavoriteIcon />
             </Avatar>
           ) : movie.mustWatch ? (
-                <Avatar sx={styles.avatar}>
-                  <PlaylistAddCheckIcon />
-                </Avatar>
-              ) : null
+            <Avatar sx={styles.avatar}>
+              <PlaylistAddCheckIcon />
+            </Avatar>
+          ) : null
         }
         title={
           <Typography variant="h5" component="p">
@@ -64,14 +65,18 @@ export default function MovieCard({ movie, action }) {
           </Typography>
         }
       />
-      <CardMedia
-        sx={styles.media}
-        image={
-          movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-            : img
-        }
-      />
+      <CardActionArea>
+        <Link to={`/movies/${movie.id}`}>
+          <CardMedia
+            sx={styles.media}
+            image={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                : img
+            }
+          />
+        </Link>
+      </CardActionArea>
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
@@ -90,8 +95,8 @@ export default function MovieCard({ movie, action }) {
       </CardContent>
       <CardActions disableSpacing>
         {action(movie)}
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
+        <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" size="medium" color="primary">
             More Info ...
           </Button>
         </Link>

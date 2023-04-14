@@ -59,7 +59,7 @@ const SiteHeader = () => {
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Popular Actors", path: "/actors/popular" },
     { label: "Favorites", path: "/movies/favourites" },
-    { label: "Watch List", path: "/movies/watchlist" },    
+    { label: "Must Watch", path: "/movies/watchlist" },    
     // { label: "Maybe TV???", path: "/" },
     // { label: "Auth Actors", path: "/actors/popularAuth" },
     // { label: "HomeAuth", path: "/homeauth" },    
