@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 // import HomePage from "./pages/homePage";
+// comment
 import MovieDetailsPage from './pages/movieDetailsPage'
 import sample from './stories/sampleData'
 
