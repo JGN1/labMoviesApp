@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
+import { getApiMovieReviews } from "../../api/ewd-api-jn-2023";
 
 const styles = {
   table: {
@@ -17,11 +18,24 @@ const styles = {
 };
 
 export default function MovieReviews({ movie }) {
+  // const [reviews, setReviews] = useState({});
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
+    getApiMovieReviews(movie.id).then((rev) => {
+      // getMovieReviews(movie.id).then((reviews) => {
+        // setReviews(reviews=> [...reviews, rev]);
+      setReviews(rev);
+      // setReviews([...reviews, rev]);
+      // setReviews( {...reviews, rev } );
+    });
+
+    // getApiMovieReviews(movie.id).then((reviews) => {
+    getMovieReviews(movie.id).then((rev) => {
+      // setReviews([...reviews, rev]);
+      // setReviews(rev);
+      // setReviews(reviews.concat(rev));
+      // setReviews( {...reviews, rev } );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -44,11 +58,11 @@ export default function MovieReviews({ movie }) {
               </TableCell>
               <TableCell >{excerpt(r.content)}</TableCell>
               <TableCell >
-                            <Link
+                <Link
                   to={`/reviews/${r.id}`}
                   state={{
-                      review: r,
-                      movie: movie,
+                    review: r,
+                    movie: movie,
                   }}
                 >
                   Full Review

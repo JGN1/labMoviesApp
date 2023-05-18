@@ -42,7 +42,8 @@ const ReviewForm = ({ movie }) => {
   const onSubmit = (review) => {
     review.movieId = movie.id;
     review.rating = rating;
-    // console.log(review);
+    console.log("Form Submission data");
+    console.log(JSON.stringify(review));
     context.addReview(movie, review);
     setOpen(true); // NEW
   };

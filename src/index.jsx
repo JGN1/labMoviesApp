@@ -79,6 +79,9 @@ const App = () => {
   );
 };
 
+console.log("VITE_NODE_ENV - " + import.meta.env.VITE_NODE_ENV);
+console.log("VITE_AUTH_API - " + import.meta.env.VITE_AUTH_API);
+console.log("VITE_AUTHPROVIDER_PATH - " + import.meta.env.VITE_AUTHPROVIDER_PATH);
 
 
               {/* <Route path="/pagination" element={<Pagination />} /> */}

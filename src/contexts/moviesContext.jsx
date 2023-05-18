@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {apiAddReview} from "../api/ewd-api-jn-2023";
 
 export const MoviesContext = React.createContext(null);
 
@@ -34,7 +35,13 @@ const MoviesContextProvider = (props) => {
     setFavourites(favourites.filter((mId) => mId !== movie.id));
   };
 
+  // Added for assignment 2 so reviews can be sent to my MongoDB backend
   const addReview = (movie, review) => {   // NEW
+    // console.log("In the add review in movie context");
+    // console.log("Form Submission data");
+    // console.log("------" + JSON.stringify(movie.id)+" -- "+JSON.stringify(movie.original_title)+" -- "+ JSON.stringify(review.author)+" -- "+ JSON.stringify(review.review)+" -- "+ JSON.stringify(review.rating));
+    // apiAddReview(11111,"Grapes of Wrath", "john higgins","this is the review text for testing from movies React App", 3);
+    apiAddReview(movie.id, movie.original_title, review.author, review.review, review.rating);
     setMyReviews( {...myReviews, [movie.id]: review } )
   };
 

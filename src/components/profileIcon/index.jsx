@@ -10,35 +10,53 @@ import Logout from '@mui/icons-material/Logout';
 import { useAuth } from '../../contexts/authProvider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+// const providerPath = import.meta.env.VITE_AUTHPROVIDER_PATH;
+// console.log ("this is providerPath " + providerPath);
+// const { useAuth } = await import('../contexts/authProvider_API');
+
 export default function AccountMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [displayName, setName] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
+  };  
 
   console.log("passed email - " + props.user)
   
-  const { auth, signOut } = useAuth();
+  const { auth, signOut, signout } = useAuth();
   const { user } = useAuth();
-  console.log ("here is Auth hdhd - " + auth);
+  console.log ("In profileIcon component, auth is - " + auth);
   {auth && (
-  console.log ("here is Auth User - " + user.email)
+  console.log ("In profileIcon component, user - " + user)
   )}
   console.log(auth);
 
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const { error } = await signOut();
+      const { error } = await signout();
       console.log(error);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // setName = props.user;
+
+  if (import.meta.env.VITE_AUTH_API == "SUPABASE") {
+    // setName = props.user;
+    var displayName = props.user;
+  }
+  if (import.meta.env.VITE_AUTH_API == "MONGODB") {
+    // setName = user;
+    var displayName = user;
+  }
+
+  
 
   return (
     <React.Fragment>
@@ -92,8 +110,8 @@ export default function AccountMenu(props) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> {props.user}
+        <MenuItem onClick={handleClose}>        
+          <Avatar /> {displayName}
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

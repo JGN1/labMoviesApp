@@ -59,7 +59,14 @@ const Login = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, authenticate } = useAuth();
+
+
+  /////////////////////////////
+  const authType = import.meta.env.VITE_AUTH_API
+  console.log("VITE_AUTH_API is " + authType);
+  //////////////////////);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,10 +79,25 @@ const Login = (props) => {
         setErrorMsg("Please fill in fields");
         return;
       }
-      const {
-        data: { user, session },
-        error
-      } = await login(emailRef.current.value, passwordRef.current.value);
+      // console.log("in login.jsx - 1");
+
+      if (import.meta.env.VITE_AUTH_API == "SUPABASE") {
+        console.log("in login.jsx - 1 - SUPABASE");
+        const {
+          data: { user, session },
+          error
+        } = await login(emailRef.current.value, passwordRef.current.value);
+        console.log("in login.jsx - 2");
+      }
+      if (import.meta.env.VITE_AUTH_API == "MONGODB") {
+        console.log("in login.jsx - 1 - MONGODB");
+        const {
+          data: { user, session },
+          error
+        } = await authenticate(emailRef.current.value, passwordRef.current.value);
+        console.log("in login.jsx - 2");
+      }
+
       if (error) setErrorMsg(error.message);
       if (user && session) navigate("/");
     } catch (error) {
