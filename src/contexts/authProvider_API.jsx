@@ -9,7 +9,7 @@ export const useAuth = () => useContext(AuthContext);
 
 const AuthContextProvider = (props) => {
   const existingToken = localStorage.getItem("token");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authToken, setAuthToken] = useState(existingToken);
   const [email, setEmail] = useState("");
 
@@ -25,7 +25,8 @@ const AuthContextProvider = (props) => {
   // const login = async (email, password) => {
   const authenticate = async (email, password) => {
     const result = await login(email, password);
-    if (result.token) {
+    console.log("result token - "+result.token);
+    if (result.token != undefined) {
       console.log("in login set token area");
       setToken(result.token)
       setAuth(true);
@@ -42,6 +43,7 @@ const AuthContextProvider = (props) => {
 
   const signout = () => {
     setTimeout(() => setAuth(false), 100);
+    setToken();
   }
 
     return (
@@ -50,7 +52,7 @@ const AuthContextProvider = (props) => {
           user,
           // login,
           authenticate,
-          // register,
+          register,
           signout,
           auth
         }}

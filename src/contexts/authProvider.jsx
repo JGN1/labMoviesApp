@@ -1,64 +1,46 @@
-import React, { useState, useContext, createContext } from "react";
-import { login, signup } from "../api/ewd-api-jn-2023";
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../supabase/client";
 
-// export const AuthContext = createContext(null);
 
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
 
-const AuthContextProvider = (props) => {
-  const existingToken = localStorage.getItem("token");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authToken, setAuthToken] = useState(existingToken);
-  const [email, setEmail] = useState("");
+const login = (email, password) =>
+  supabase.auth.signInWithPassword({ email, password });
 
+const signOut = () => supabase.auth.signOut();
+
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
+  
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+        console.log("EVENT in authProvider is - " + event);
+      if (event === "SIGNED_IN") {
+        setUser(session.user);
+        setAuth(true);
+      } else if (event === "SIGNED_OUT") {
+        setUser(null);
+        setAuth(false);
+      }
+    });    
+    return () => {
+      data.subscription.unsubscribe();
+    };
+  }, []);
 
-  //Function to put JWT token in local storage.
-  const setToken = (data) => {
-    localStorage.setItem("token", data);
-    setAuthToken(data);
-  }
 
-  // const login = async (email, password) => {
-  const authenticate = async (email, password) => {
-    const result = await login(email, password);
-    if (result.token) {
-      console.log("in login set token area");
-      setToken(result.token)
-      setAuth(true);
-      setEmail(email);
-      setUser(email);
-    }
-  };
+  console.log("Session User - " + JSON.stringify(user));
+  console.log("Session Auth - " + auth);
 
-  const register = async (email, password, firstName, lastName) => {
-    const result = await signup(email, password, firstName, lastName);
-    console.log(result.code);
-    return (result.code == 201) ? true : false;
-  };
 
-  const signout = () => {
-    setTimeout(() => setAuth(false), 100);
-  }
-
-    return (
-      <AuthContext.Provider
-        value={{
-          user,
-          // login,
-          authenticate,
-          // register,
-          signout,
-          auth
-        }}
-      >
-        {props.children}
-      </AuthContext.Provider>
-    );
-
+  return (
+    <AuthContext.Provider value={{ user, login, signOut, auth }}>     
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export default AuthContextProvider;
+export default AuthProvider;

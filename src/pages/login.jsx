@@ -87,7 +87,8 @@ const Login = (props) => {
           data: { user, session },
           error
         } = await login(emailRef.current.value, passwordRef.current.value);
-        console.log("in login.jsx - 2");
+        if (error) setErrorMsg(error.message);
+        if (user) navigate("/");
       }
       if (import.meta.env.VITE_AUTH_API == "MONGODB") {
         console.log("in login.jsx - 1 - MONGODB");
@@ -95,11 +96,10 @@ const Login = (props) => {
           data: { user, session },
           error
         } = await authenticate(emailRef.current.value, passwordRef.current.value);
-        console.log("in login.jsx - 2");
+        if (error) setErrorMsg(error.message);
+        if (user && session) navigate("/");
       }
 
-      if (error) setErrorMsg(error.message);
-      if (user && session) navigate("/");
     } catch (error) {
       setErrorMsg("Email or Password Incorrect");
     }

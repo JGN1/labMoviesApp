@@ -18,7 +18,11 @@ export const apiAddReview = (movieId, movie, author, content, rating) => {
 
 export const getApiMovieReviews = (movieId) => {
     return fetch(
-        `/api/reviews/${movieId}/movie`
+        `/api/reviews/${movieId}/movie`, {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+            }
+        }
     ).then((res) => res.json());
 };
 

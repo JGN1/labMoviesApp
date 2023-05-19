@@ -20,25 +20,122 @@ const styles = {
 export default function MovieReviews({ movie }) {
   // const [reviews, setReviews] = useState({});
   const [reviews, setReviews] = useState([]);
+  const [checkResponse, setCheckResponse] = useState(false);
+  const [responseComment, setResponseComment] = useState();
+  const [responseLink, setResponseLink] = useState();
+  const [responseLinkText, setResponseLinkText] = useState();
+  const [responseState, setResponseState] = useState();
+
 
   useEffect(() => {
-    getApiMovieReviews(movie.id).then((rev) => {
-      // getMovieReviews(movie.id).then((reviews) => {
-        // setReviews(reviews=> [...reviews, rev]);
-      setReviews(rev);
-      // setReviews([...reviews, rev]);
-      // setReviews( {...reviews, rev } );
-    });
+    if (import.meta.env.VITE_AUTH_API == "MONGODB") {
+      try {
+        getApiMovieReviews(movie.id).then((rev) => {
 
-    // getApiMovieReviews(movie.id).then((reviews) => {
-    getMovieReviews(movie.id).then((rev) => {
-      // setReviews([...reviews, rev]);
-      // setReviews(rev);
-      // setReviews(reviews.concat(rev));
-      // setReviews( {...reviews, rev } );
-    });
+          setReviews(rev);
+          const authToken = localStorage.getItem('token');
+          const accessToken = authToken.split(" ")[0];
+
+          console.log("AuthToken - " + authToken);
+          console.log("Reviews - " + JSON.stringify(reviews));
+          console.log("Rev from API" + JSON.stringify(rev));
+          console.log("AccessToken - " + accessToken);
+          console.log("Rev MESSAGE from API " + JSON.stringify(rev.error));
+
+          if (rev.length > 0 && accessToken == 'BEARER') {
+            setCheckResponse(true);
+            console.log("Reviews exist and logged in");
+          };
+          if (rev.error == "Error: Verification Failed jwt must be provided") {
+            setCheckResponse(false);
+            setResponseComment("To see your Reviews Please Log In");
+            setResponseLink("/login");
+            setResponseLinkText("Login");
+            console.log(" JWT ERROR - Reviews Please Log IN");
+          };
+          if (rev.length == 0 && authToken == null) {
+            setCheckResponse(false);
+            setResponseComment("To see your Reviews Please Log In");
+            console.log(" Reviews Please Log IN");
+          };
+          if (rev.length == 0 && accessToken == 'BEARER') {
+            setCheckResponse(false);
+            setResponseLink("/reviews/form");
+            setResponseState("state={{movieId: movie.id,}}")
+
+            //         <Link
+            //   to={'/reviews/form'}
+            //   state={{movieId: movie.id,}}
+            // ></Link>
+            setResponseLinkText("Add Review");
+            setResponseComment("You have not added any reviews yet");
+            console.log(" no reviews yet");
+          };
+          console.log("CheckResponse is set to - " + checkResponse);
+          console.log("ResponseComment is set to - " + responseComment);
+        });
+      } catch (error) {
+        setResponseComment("To see your Reviews Please Log In");
+        setCheckResponse(false);
+      }
+    }
+
+    if (import.meta.env.VITE_AUTH_API == "SUPABASE") {
+      // getApiMovieReviews(movie.id).then((reviews) => {
+      getMovieReviews(movie.id).then((rev) => {
+        // setReviews([...reviews, rev]);
+        setReviews(rev);
+        setCheckResponse(true);
+        // setReviews(reviews.concat(rev));
+        // setReviews( {...reviews, rev } );
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // console.log("HERE IS THE REVIEW RETRIEVED - " + JSON.stringify(reviews));
+
+
+  // if(reviews.content !== undefined){setCheckResponse(true)};
+  // setCheckResponse(false);
+
+
+  // return (
+  //   <TableContainer component={Paper}>
+  //     <Table sx={styles.table} aria-label="reviews table">
+  //       <TableHead>
+  //         <TableRow>
+  //           <TableCell >Author</TableCell>
+  //           <TableCell align="center">Excerpt</TableCell>
+  //           <TableCell align="right">More</TableCell>
+  //         </TableRow>
+  //       </TableHead>
+  //       <TableBody>
+  //         { reviews.map((r) => (
+  //               <TableRow key={r.id}>
+  //                 <TableCell component="th" scope="row">
+  //                   {r.author}
+  //                 </TableCell>
+  //                 <TableCell >{excerpt(r.content)}</TableCell>
+  //                 <TableCell >
+  //                   <Link
+  //                     to={`/reviews/${r.id}`}
+  //                     state={{
+  //                       review: r,
+  //                       movie: movie,
+  //                     }}
+  //                   >
+  //                     Full Review
+  //                   </Link>
+  //                 </TableCell>
+  //               </TableRow>
+  //             ))}
+  //       </TableBody>
+  //     </Table>
+  //   </TableContainer>
+  // );
+
+
 
   return (
     <TableContainer component={Paper}>
@@ -51,25 +148,43 @@ export default function MovieReviews({ movie }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reviews.map((r) => (
-            <TableRow key={r.id}>
-              <TableCell component="th" scope="row">
-                {r.author}
-              </TableCell>
-              <TableCell >{excerpt(r.content)}</TableCell>
-              <TableCell >
-                <Link
-                  to={`/reviews/${r.id}`}
-                  state={{
-                    review: r,
-                    movie: movie,
-                  }}
-                >
-                  Full Review
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))}
+          {
+            checkResponse ? (
+              reviews.map((r) => (
+                <TableRow key={r.id}>
+                  <TableCell component="th" scope="row">
+                    {r.author}
+                  </TableCell>
+                  <TableCell >{excerpt(r.content)}</TableCell>
+                  <TableCell >
+                    <Link
+                      to={`/reviews/${r.id}`}
+                      state={{
+                        review: r,
+                        movie: movie,
+                      }}
+                    >
+                      Full Review
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow key='1'>
+                <TableCell component="th" scope="row">
+                  {<Link to={`${responseLink}`}
+                    state={{
+                      movieId: movie.id,
+                    }}
+                    >
+                    {responseLinkText}</Link>}
+                </TableCell>
+                <TableCell >{responseComment}</TableCell>
+                <TableCell >
+
+                </TableCell>
+              </TableRow>
+            )}
         </TableBody>
       </Table>
     </TableContainer>

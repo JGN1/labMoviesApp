@@ -3,7 +3,7 @@ require('dotenv').config();
 
 
 const fileName = process.argv[2];
-console.log("sourceFil - "+ fileName);
+console.log("Source File Used - "+ fileName);
 const sourceFile = './src/contexts/'+fileName+'.jsx';
 const destinationFile = './src/contexts/authProvider.jsx';
 

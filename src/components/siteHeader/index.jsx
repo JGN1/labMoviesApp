@@ -21,6 +21,7 @@ const styles = {
 };
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
+const environment = import.meta.env.VITE_NODE_ENV;
 
 const SiteHeader = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const SiteHeader = () => {
       <AppBar sx={styles.appbar} position="fixed" elevation={0} color="primary">
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
-            TMDB Client
+            TMDB Client ({environment})
           </Typography>
           <Typography variant="h6" sx={styles.title}>
             All you ever wanted to know about Movies!
