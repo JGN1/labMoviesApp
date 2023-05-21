@@ -38,9 +38,12 @@ export default function AccountMenu(props) {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const { error } = await signout();      
-      console.log(error);
+      await signout();
+      console.log ("Signout - user - " + user + " and Auth - "+auth);
+      // const { error } = await signout();      
+      // console.log(error);
     } catch (error) {
+      console.log("hit and error on signout");
       console.log(error);
     }
   };

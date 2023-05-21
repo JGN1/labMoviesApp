@@ -26,6 +26,14 @@ export const getApiMovieReviews = (movieId) => {
     ).then((res) => res.json());
 };
 
+// Get Popular Actors
+
+export const getPopularActors = () => {
+    return fetch(
+        `/api/actors`
+    ).then((res) => res.json());
+};
+
 export const getMovies = () => {
     return fetch(
         `/api/movies`

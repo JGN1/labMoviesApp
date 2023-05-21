@@ -34,8 +34,13 @@ export default function MovieReviews({ movie }) {
 
           setReviews(rev);
           const authToken = localStorage.getItem('token');
-          const accessToken = authToken.split(" ")[0];
-
+          try {
+            var accessToken = authToken.split(" ")[0];
+          } catch (error) {
+            var accessToken = 'NotLoggedIn';
+          }
+          // const accessToken = authToken.split(" ")[0];
+          
           console.log("AuthToken - " + authToken);
           console.log("Reviews - " + JSON.stringify(reviews));
           console.log("Rev from API" + JSON.stringify(rev));
@@ -53,20 +58,17 @@ export default function MovieReviews({ movie }) {
             setResponseLinkText("Login");
             console.log(" JWT ERROR - Reviews Please Log IN");
           };
-          if (rev.length == 0 && authToken == null) {
+          if ((rev.length == 0 && authToken == null)|(rev.length > 0 && authToken == null)) {
             setCheckResponse(false);
             setResponseComment("To see your Reviews Please Log In");
+            setResponseLink("/login");
+            setResponseLinkText("Login");
             console.log(" Reviews Please Log IN");
           };
           if (rev.length == 0 && accessToken == 'BEARER') {
             setCheckResponse(false);
             setResponseLink("/reviews/form");
             setResponseState("state={{movieId: movie.id,}}")
-
-            //         <Link
-            //   to={'/reviews/form'}
-            //   state={{movieId: movie.id,}}
-            // ></Link>
             setResponseLinkText("Add Review");
             setResponseComment("You have not added any reviews yet");
             console.log(" no reviews yet");
@@ -81,60 +83,13 @@ export default function MovieReviews({ movie }) {
     }
 
     if (import.meta.env.VITE_AUTH_API == "SUPABASE") {
-      // getApiMovieReviews(movie.id).then((reviews) => {
       getMovieReviews(movie.id).then((rev) => {
-        // setReviews([...reviews, rev]);
         setReviews(rev);
         setCheckResponse(true);
-        // setReviews(reviews.concat(rev));
-        // setReviews( {...reviews, rev } );
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // console.log("HERE IS THE REVIEW RETRIEVED - " + JSON.stringify(reviews));
-
-
-  // if(reviews.content !== undefined){setCheckResponse(true)};
-  // setCheckResponse(false);
-
-
-  // return (
-  //   <TableContainer component={Paper}>
-  //     <Table sx={styles.table} aria-label="reviews table">
-  //       <TableHead>
-  //         <TableRow>
-  //           <TableCell >Author</TableCell>
-  //           <TableCell align="center">Excerpt</TableCell>
-  //           <TableCell align="right">More</TableCell>
-  //         </TableRow>
-  //       </TableHead>
-  //       <TableBody>
-  //         { reviews.map((r) => (
-  //               <TableRow key={r.id}>
-  //                 <TableCell component="th" scope="row">
-  //                   {r.author}
-  //                 </TableCell>
-  //                 <TableCell >{excerpt(r.content)}</TableCell>
-  //                 <TableCell >
-  //                   <Link
-  //                     to={`/reviews/${r.id}`}
-  //                     state={{
-  //                       review: r,
-  //                       movie: movie,
-  //                     }}
-  //                   >
-  //                     Full Review
-  //                   </Link>
-  //                 </TableCell>
-  //               </TableRow>
-  //             ))}
-  //       </TableBody>
-  //     </Table>
-  //   </TableContainer>
-  // );
-
 
 
   return (
@@ -190,3 +145,48 @@ export default function MovieReviews({ movie }) {
     </TableContainer>
   );
 }
+
+
+
+  // console.log("HERE IS THE REVIEW RETRIEVED - " + JSON.stringify(reviews));
+
+
+  // if(reviews.content !== undefined){setCheckResponse(true)};
+  // setCheckResponse(false);
+
+
+  // return (
+  //   <TableContainer component={Paper}>
+  //     <Table sx={styles.table} aria-label="reviews table">
+  //       <TableHead>
+  //         <TableRow>
+  //           <TableCell >Author</TableCell>
+  //           <TableCell align="center">Excerpt</TableCell>
+  //           <TableCell align="right">More</TableCell>
+  //         </TableRow>
+  //       </TableHead>
+  //       <TableBody>
+  //         { reviews.map((r) => (
+  //               <TableRow key={r.id}>
+  //                 <TableCell component="th" scope="row">
+  //                   {r.author}
+  //                 </TableCell>
+  //                 <TableCell >{excerpt(r.content)}</TableCell>
+  //                 <TableCell >
+  //                   <Link
+  //                     to={`/reviews/${r.id}`}
+  //                     state={{
+  //                       review: r,
+  //                       movie: movie,
+  //                     }}
+  //                   >
+  //                     Full Review
+  //                   </Link>
+  //                 </TableCell>
+  //               </TableRow>
+  //             ))}
+  //       </TableBody>
+  //     </Table>
+  //   </TableContainer>
+  // );
+

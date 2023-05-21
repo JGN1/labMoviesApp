@@ -1,3 +1,4 @@
+// Source File is authProvider_API
 import React, { useState, useContext, createContext } from "react";
 import { login, signup } from "../api/ewd-api-jn-2023";
 
@@ -42,8 +43,12 @@ const AuthContextProvider = (props) => {
   };
 
   const signout = () => {
-    setTimeout(() => setAuth(false), 100);
-    setToken();
+    
+    console.log("hit the signout in authProvider");
+    setUser(null);
+    setAuth(false);    
+    // setTimeout(() => setAuth(false), 1000);
+    localStorage.removeItem('token');
   }
 
     return (

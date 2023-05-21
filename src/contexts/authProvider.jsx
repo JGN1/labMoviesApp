@@ -1,46 +1,71 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../supabase/client";
+// Source File is authProvider_API
+import React, { useState, useContext, createContext } from "react";
+import { login, signup } from "../api/ewd-api-jn-2023";
 
+// export const AuthContext = createContext(null);
 
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
 
-const login = (email, password) =>
-  supabase.auth.signInWithPassword({ email, password });
+const AuthContextProvider = (props) => {
+  const existingToken = localStorage.getItem("token");
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState(existingToken);
+  const [email, setEmail] = useState("");
 
-const signOut = () => supabase.auth.signOut();
-
-const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
-  
-  useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-        console.log("EVENT in authProvider is - " + event);
-      if (event === "SIGNED_IN") {
-        setUser(session.user);
-        setAuth(true);
-      } else if (event === "SIGNED_OUT") {
-        setUser(null);
-        setAuth(false);
-      }
-    });    
-    return () => {
-      data.subscription.unsubscribe();
-    };
-  }, []);
 
+  //Function to put JWT token in local storage.
+  const setToken = (data) => {
+    localStorage.setItem("token", data);
+    setAuthToken(data);
+  }
 
-  console.log("Session User - " + JSON.stringify(user));
-  console.log("Session Auth - " + auth);
+  // const login = async (email, password) => {
+  const authenticate = async (email, password) => {
+    const result = await login(email, password);
+    console.log("result token - "+result.token);
+    if (result.token != undefined) {
+      console.log("in login set token area");
+      setToken(result.token)
+      setAuth(true);
+      setEmail(email);
+      setUser(email);
+    }
+  };
 
+  const register = async (email, password, firstName, lastName) => {
+    const result = await signup(email, password, firstName, lastName);
+    console.log(result.code);
+    return (result.code == 201) ? true : false;
+  };
 
-  return (
-    <AuthContext.Provider value={{ user, login, signOut, auth }}>     
-      {children}
-    </AuthContext.Provider>
-  );
+  const signout = () => {
+    
+    console.log("hit the signout in authProvider");
+    setUser(null);
+    setAuth(false);    
+    // setTimeout(() => setAuth(false), 1000);
+    localStorage.removeItem('token');
+  }
+
+    return (
+      <AuthContext.Provider
+        value={{
+          user,
+          // login,
+          authenticate,
+          register,
+          signout,
+          auth
+        }}
+      >
+        {props.children}
+      </AuthContext.Provider>
+    );
+
 };
 
-export default AuthProvider;
+export default AuthContextProvider;

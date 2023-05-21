@@ -3,6 +3,7 @@ import PageTemplate from "../components/templateActorsListPage";
 // import { useQuery } from "react-query";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import Spinner from "../components/spinner";
+// import { getPopularActors } from "../api/ewd-api-jn-2023";
 import { getPopularActors } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {

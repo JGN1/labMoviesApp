@@ -1,3 +1,4 @@
+// SourceFile - authProvider_SUPABASE.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabase/client";
 
@@ -9,7 +10,8 @@ export const useAuth = () => useContext(AuthContext);
 const login = (email, password) =>
   supabase.auth.signInWithPassword({ email, password });
 
-const signOut = () => supabase.auth.signOut();
+const signout = () => supabase.auth.signOut();
+// const signOut = () => supabase.auth.signOut();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -37,7 +39,7 @@ const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, login, signOut, auth }}>     
+    <AuthContext.Provider value={{ user, login, signout, auth }}>     
       {children}
     </AuthContext.Provider>
   );
